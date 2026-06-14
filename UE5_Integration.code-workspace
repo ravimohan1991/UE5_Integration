@@ -1,0 +1,865 @@
+{
+	"folders": [
+		{
+			"name": "UE5_Integration",
+			"path": "."
+		},
+		{
+			"name": "UE5",
+			"path": "/home/the-cowboy/Unreal_Engine_5.4.4"
+		}
+	],
+	"settings": {
+		"typescript.tsc.autoDetect": "off",
+		"npm.autoDetect": "off"
+	},
+	"extensions": {
+		"recommendations": [
+			"ms-vscode.cpptools",
+			"ms-dotnettools.csharp"
+		]
+	},
+	"tasks": {
+		"version": "2.0.0",
+		"tasks": [
+			{
+				"label": "UE5_Integration Linux Debug Build",
+				"group": "build",
+				"command": "Engine/Build/BatchFiles/Linux/Build.sh",
+				"args": [
+					"UE5_Integration",
+					"Linux",
+					"Debug",
+					"/home/the-cowboy/UE5_Integration/UE5_Integration.uproject",
+					"-waitmutex"
+				],
+				"problemMatcher": "$msCompile",
+				"type": "shell",
+				"options": {
+					"cwd": "/home/the-cowboy/Unreal_Engine_5.4.4"
+				}
+			},
+			{
+				"label": "UE5_Integration Linux Debug Rebuild",
+				"group": "build",
+				"command": "Engine/Build/BatchFiles/Linux/Build.sh",
+				"args": [
+					"UE5_Integration",
+					"Linux",
+					"Debug",
+					"/home/the-cowboy/UE5_Integration/UE5_Integration.uproject",
+					"-waitmutex"
+				],
+				"problemMatcher": "$msCompile",
+				"dependsOn": [
+					"UE5_Integration Linux Debug Clean"
+				],
+				"type": "shell",
+				"options": {
+					"cwd": "/home/the-cowboy/Unreal_Engine_5.4.4"
+				}
+			},
+			{
+				"label": "UE5_Integration Linux Debug Clean",
+				"group": "build",
+				"command": "Engine/Build/BatchFiles/Linux/Build.sh",
+				"args": [
+					"UE5_Integration",
+					"Linux",
+					"Debug",
+					"/home/the-cowboy/UE5_Integration/UE5_Integration.uproject",
+					"-waitmutex",
+					"-clean"
+				],
+				"problemMatcher": "$msCompile",
+				"type": "shell",
+				"options": {
+					"cwd": "/home/the-cowboy/Unreal_Engine_5.4.4"
+				}
+			},
+			{
+				"label": "UE5_Integration Linux DebugGame Build",
+				"group": "build",
+				"command": "Engine/Build/BatchFiles/Linux/Build.sh",
+				"args": [
+					"UE5_Integration",
+					"Linux",
+					"DebugGame",
+					"/home/the-cowboy/UE5_Integration/UE5_Integration.uproject",
+					"-waitmutex"
+				],
+				"problemMatcher": "$msCompile",
+				"type": "shell",
+				"options": {
+					"cwd": "/home/the-cowboy/Unreal_Engine_5.4.4"
+				}
+			},
+			{
+				"label": "UE5_Integration Linux DebugGame Rebuild",
+				"group": "build",
+				"command": "Engine/Build/BatchFiles/Linux/Build.sh",
+				"args": [
+					"UE5_Integration",
+					"Linux",
+					"DebugGame",
+					"/home/the-cowboy/UE5_Integration/UE5_Integration.uproject",
+					"-waitmutex"
+				],
+				"problemMatcher": "$msCompile",
+				"dependsOn": [
+					"UE5_Integration Linux DebugGame Clean"
+				],
+				"type": "shell",
+				"options": {
+					"cwd": "/home/the-cowboy/Unreal_Engine_5.4.4"
+				}
+			},
+			{
+				"label": "UE5_Integration Linux DebugGame Clean",
+				"group": "build",
+				"command": "Engine/Build/BatchFiles/Linux/Build.sh",
+				"args": [
+					"UE5_Integration",
+					"Linux",
+					"DebugGame",
+					"/home/the-cowboy/UE5_Integration/UE5_Integration.uproject",
+					"-waitmutex",
+					"-clean"
+				],
+				"problemMatcher": "$msCompile",
+				"type": "shell",
+				"options": {
+					"cwd": "/home/the-cowboy/Unreal_Engine_5.4.4"
+				}
+			},
+			{
+				"label": "UE5_Integration Linux Development Build",
+				"group": "build",
+				"command": "Engine/Build/BatchFiles/Linux/Build.sh",
+				"args": [
+					"UE5_Integration",
+					"Linux",
+					"Development",
+					"/home/the-cowboy/UE5_Integration/UE5_Integration.uproject",
+					"-waitmutex"
+				],
+				"problemMatcher": "$msCompile",
+				"type": "shell",
+				"options": {
+					"cwd": "/home/the-cowboy/Unreal_Engine_5.4.4"
+				}
+			},
+			{
+				"label": "UE5_Integration Linux Development Rebuild",
+				"group": "build",
+				"command": "Engine/Build/BatchFiles/Linux/Build.sh",
+				"args": [
+					"UE5_Integration",
+					"Linux",
+					"Development",
+					"/home/the-cowboy/UE5_Integration/UE5_Integration.uproject",
+					"-waitmutex"
+				],
+				"problemMatcher": "$msCompile",
+				"dependsOn": [
+					"UE5_Integration Linux Development Clean"
+				],
+				"type": "shell",
+				"options": {
+					"cwd": "/home/the-cowboy/Unreal_Engine_5.4.4"
+				}
+			},
+			{
+				"label": "UE5_Integration Linux Development Clean",
+				"group": "build",
+				"command": "Engine/Build/BatchFiles/Linux/Build.sh",
+				"args": [
+					"UE5_Integration",
+					"Linux",
+					"Development",
+					"/home/the-cowboy/UE5_Integration/UE5_Integration.uproject",
+					"-waitmutex",
+					"-clean"
+				],
+				"problemMatcher": "$msCompile",
+				"type": "shell",
+				"options": {
+					"cwd": "/home/the-cowboy/Unreal_Engine_5.4.4"
+				}
+			},
+			{
+				"label": "UE5_Integration Linux Test Build",
+				"group": "build",
+				"command": "Engine/Build/BatchFiles/Linux/Build.sh",
+				"args": [
+					"UE5_Integration",
+					"Linux",
+					"Test",
+					"/home/the-cowboy/UE5_Integration/UE5_Integration.uproject",
+					"-waitmutex"
+				],
+				"problemMatcher": "$msCompile",
+				"type": "shell",
+				"options": {
+					"cwd": "/home/the-cowboy/Unreal_Engine_5.4.4"
+				}
+			},
+			{
+				"label": "UE5_Integration Linux Test Rebuild",
+				"group": "build",
+				"command": "Engine/Build/BatchFiles/Linux/Build.sh",
+				"args": [
+					"UE5_Integration",
+					"Linux",
+					"Test",
+					"/home/the-cowboy/UE5_Integration/UE5_Integration.uproject",
+					"-waitmutex"
+				],
+				"problemMatcher": "$msCompile",
+				"dependsOn": [
+					"UE5_Integration Linux Test Clean"
+				],
+				"type": "shell",
+				"options": {
+					"cwd": "/home/the-cowboy/Unreal_Engine_5.4.4"
+				}
+			},
+			{
+				"label": "UE5_Integration Linux Test Clean",
+				"group": "build",
+				"command": "Engine/Build/BatchFiles/Linux/Build.sh",
+				"args": [
+					"UE5_Integration",
+					"Linux",
+					"Test",
+					"/home/the-cowboy/UE5_Integration/UE5_Integration.uproject",
+					"-waitmutex",
+					"-clean"
+				],
+				"problemMatcher": "$msCompile",
+				"type": "shell",
+				"options": {
+					"cwd": "/home/the-cowboy/Unreal_Engine_5.4.4"
+				}
+			},
+			{
+				"label": "UE5_Integration Linux Shipping Build",
+				"group": "build",
+				"command": "Engine/Build/BatchFiles/Linux/Build.sh",
+				"args": [
+					"UE5_Integration",
+					"Linux",
+					"Shipping",
+					"/home/the-cowboy/UE5_Integration/UE5_Integration.uproject",
+					"-waitmutex"
+				],
+				"problemMatcher": "$msCompile",
+				"type": "shell",
+				"options": {
+					"cwd": "/home/the-cowboy/Unreal_Engine_5.4.4"
+				}
+			},
+			{
+				"label": "UE5_Integration Linux Shipping Rebuild",
+				"group": "build",
+				"command": "Engine/Build/BatchFiles/Linux/Build.sh",
+				"args": [
+					"UE5_Integration",
+					"Linux",
+					"Shipping",
+					"/home/the-cowboy/UE5_Integration/UE5_Integration.uproject",
+					"-waitmutex"
+				],
+				"problemMatcher": "$msCompile",
+				"dependsOn": [
+					"UE5_Integration Linux Shipping Clean"
+				],
+				"type": "shell",
+				"options": {
+					"cwd": "/home/the-cowboy/Unreal_Engine_5.4.4"
+				}
+			},
+			{
+				"label": "UE5_Integration Linux Shipping Clean",
+				"group": "build",
+				"command": "Engine/Build/BatchFiles/Linux/Build.sh",
+				"args": [
+					"UE5_Integration",
+					"Linux",
+					"Shipping",
+					"/home/the-cowboy/UE5_Integration/UE5_Integration.uproject",
+					"-waitmutex",
+					"-clean"
+				],
+				"problemMatcher": "$msCompile",
+				"type": "shell",
+				"options": {
+					"cwd": "/home/the-cowboy/Unreal_Engine_5.4.4"
+				}
+			},
+			{
+				"label": "UE5_Integration LinuxArm64 Debug Build",
+				"group": "build",
+				"command": "Engine/Build/BatchFiles/Linux/Build.sh",
+				"args": [
+					"UE5_Integration",
+					"LinuxArm64",
+					"Debug",
+					"/home/the-cowboy/UE5_Integration/UE5_Integration.uproject",
+					"-waitmutex"
+				],
+				"problemMatcher": "$msCompile",
+				"type": "shell",
+				"options": {
+					"cwd": "/home/the-cowboy/Unreal_Engine_5.4.4"
+				}
+			},
+			{
+				"label": "UE5_Integration LinuxArm64 Debug Rebuild",
+				"group": "build",
+				"command": "Engine/Build/BatchFiles/Linux/Build.sh",
+				"args": [
+					"UE5_Integration",
+					"LinuxArm64",
+					"Debug",
+					"/home/the-cowboy/UE5_Integration/UE5_Integration.uproject",
+					"-waitmutex"
+				],
+				"problemMatcher": "$msCompile",
+				"dependsOn": [
+					"UE5_Integration LinuxArm64 Debug Clean"
+				],
+				"type": "shell",
+				"options": {
+					"cwd": "/home/the-cowboy/Unreal_Engine_5.4.4"
+				}
+			},
+			{
+				"label": "UE5_Integration LinuxArm64 Debug Clean",
+				"group": "build",
+				"command": "Engine/Build/BatchFiles/Linux/Build.sh",
+				"args": [
+					"UE5_Integration",
+					"LinuxArm64",
+					"Debug",
+					"/home/the-cowboy/UE5_Integration/UE5_Integration.uproject",
+					"-waitmutex",
+					"-clean"
+				],
+				"problemMatcher": "$msCompile",
+				"type": "shell",
+				"options": {
+					"cwd": "/home/the-cowboy/Unreal_Engine_5.4.4"
+				}
+			},
+			{
+				"label": "UE5_Integration LinuxArm64 DebugGame Build",
+				"group": "build",
+				"command": "Engine/Build/BatchFiles/Linux/Build.sh",
+				"args": [
+					"UE5_Integration",
+					"LinuxArm64",
+					"DebugGame",
+					"/home/the-cowboy/UE5_Integration/UE5_Integration.uproject",
+					"-waitmutex"
+				],
+				"problemMatcher": "$msCompile",
+				"type": "shell",
+				"options": {
+					"cwd": "/home/the-cowboy/Unreal_Engine_5.4.4"
+				}
+			},
+			{
+				"label": "UE5_Integration LinuxArm64 DebugGame Rebuild",
+				"group": "build",
+				"command": "Engine/Build/BatchFiles/Linux/Build.sh",
+				"args": [
+					"UE5_Integration",
+					"LinuxArm64",
+					"DebugGame",
+					"/home/the-cowboy/UE5_Integration/UE5_Integration.uproject",
+					"-waitmutex"
+				],
+				"problemMatcher": "$msCompile",
+				"dependsOn": [
+					"UE5_Integration LinuxArm64 DebugGame Clean"
+				],
+				"type": "shell",
+				"options": {
+					"cwd": "/home/the-cowboy/Unreal_Engine_5.4.4"
+				}
+			},
+			{
+				"label": "UE5_Integration LinuxArm64 DebugGame Clean",
+				"group": "build",
+				"command": "Engine/Build/BatchFiles/Linux/Build.sh",
+				"args": [
+					"UE5_Integration",
+					"LinuxArm64",
+					"DebugGame",
+					"/home/the-cowboy/UE5_Integration/UE5_Integration.uproject",
+					"-waitmutex",
+					"-clean"
+				],
+				"problemMatcher": "$msCompile",
+				"type": "shell",
+				"options": {
+					"cwd": "/home/the-cowboy/Unreal_Engine_5.4.4"
+				}
+			},
+			{
+				"label": "UE5_Integration LinuxArm64 Development Build",
+				"group": "build",
+				"command": "Engine/Build/BatchFiles/Linux/Build.sh",
+				"args": [
+					"UE5_Integration",
+					"LinuxArm64",
+					"Development",
+					"/home/the-cowboy/UE5_Integration/UE5_Integration.uproject",
+					"-waitmutex"
+				],
+				"problemMatcher": "$msCompile",
+				"type": "shell",
+				"options": {
+					"cwd": "/home/the-cowboy/Unreal_Engine_5.4.4"
+				}
+			},
+			{
+				"label": "UE5_Integration LinuxArm64 Development Rebuild",
+				"group": "build",
+				"command": "Engine/Build/BatchFiles/Linux/Build.sh",
+				"args": [
+					"UE5_Integration",
+					"LinuxArm64",
+					"Development",
+					"/home/the-cowboy/UE5_Integration/UE5_Integration.uproject",
+					"-waitmutex"
+				],
+				"problemMatcher": "$msCompile",
+				"dependsOn": [
+					"UE5_Integration LinuxArm64 Development Clean"
+				],
+				"type": "shell",
+				"options": {
+					"cwd": "/home/the-cowboy/Unreal_Engine_5.4.4"
+				}
+			},
+			{
+				"label": "UE5_Integration LinuxArm64 Development Clean",
+				"group": "build",
+				"command": "Engine/Build/BatchFiles/Linux/Build.sh",
+				"args": [
+					"UE5_Integration",
+					"LinuxArm64",
+					"Development",
+					"/home/the-cowboy/UE5_Integration/UE5_Integration.uproject",
+					"-waitmutex",
+					"-clean"
+				],
+				"problemMatcher": "$msCompile",
+				"type": "shell",
+				"options": {
+					"cwd": "/home/the-cowboy/Unreal_Engine_5.4.4"
+				}
+			},
+			{
+				"label": "UE5_Integration LinuxArm64 Test Build",
+				"group": "build",
+				"command": "Engine/Build/BatchFiles/Linux/Build.sh",
+				"args": [
+					"UE5_Integration",
+					"LinuxArm64",
+					"Test",
+					"/home/the-cowboy/UE5_Integration/UE5_Integration.uproject",
+					"-waitmutex"
+				],
+				"problemMatcher": "$msCompile",
+				"type": "shell",
+				"options": {
+					"cwd": "/home/the-cowboy/Unreal_Engine_5.4.4"
+				}
+			},
+			{
+				"label": "UE5_Integration LinuxArm64 Test Rebuild",
+				"group": "build",
+				"command": "Engine/Build/BatchFiles/Linux/Build.sh",
+				"args": [
+					"UE5_Integration",
+					"LinuxArm64",
+					"Test",
+					"/home/the-cowboy/UE5_Integration/UE5_Integration.uproject",
+					"-waitmutex"
+				],
+				"problemMatcher": "$msCompile",
+				"dependsOn": [
+					"UE5_Integration LinuxArm64 Test Clean"
+				],
+				"type": "shell",
+				"options": {
+					"cwd": "/home/the-cowboy/Unreal_Engine_5.4.4"
+				}
+			},
+			{
+				"label": "UE5_Integration LinuxArm64 Test Clean",
+				"group": "build",
+				"command": "Engine/Build/BatchFiles/Linux/Build.sh",
+				"args": [
+					"UE5_Integration",
+					"LinuxArm64",
+					"Test",
+					"/home/the-cowboy/UE5_Integration/UE5_Integration.uproject",
+					"-waitmutex",
+					"-clean"
+				],
+				"problemMatcher": "$msCompile",
+				"type": "shell",
+				"options": {
+					"cwd": "/home/the-cowboy/Unreal_Engine_5.4.4"
+				}
+			},
+			{
+				"label": "UE5_Integration LinuxArm64 Shipping Build",
+				"group": "build",
+				"command": "Engine/Build/BatchFiles/Linux/Build.sh",
+				"args": [
+					"UE5_Integration",
+					"LinuxArm64",
+					"Shipping",
+					"/home/the-cowboy/UE5_Integration/UE5_Integration.uproject",
+					"-waitmutex"
+				],
+				"problemMatcher": "$msCompile",
+				"type": "shell",
+				"options": {
+					"cwd": "/home/the-cowboy/Unreal_Engine_5.4.4"
+				}
+			},
+			{
+				"label": "UE5_Integration LinuxArm64 Shipping Rebuild",
+				"group": "build",
+				"command": "Engine/Build/BatchFiles/Linux/Build.sh",
+				"args": [
+					"UE5_Integration",
+					"LinuxArm64",
+					"Shipping",
+					"/home/the-cowboy/UE5_Integration/UE5_Integration.uproject",
+					"-waitmutex"
+				],
+				"problemMatcher": "$msCompile",
+				"dependsOn": [
+					"UE5_Integration LinuxArm64 Shipping Clean"
+				],
+				"type": "shell",
+				"options": {
+					"cwd": "/home/the-cowboy/Unreal_Engine_5.4.4"
+				}
+			},
+			{
+				"label": "UE5_Integration LinuxArm64 Shipping Clean",
+				"group": "build",
+				"command": "Engine/Build/BatchFiles/Linux/Build.sh",
+				"args": [
+					"UE5_Integration",
+					"LinuxArm64",
+					"Shipping",
+					"/home/the-cowboy/UE5_Integration/UE5_Integration.uproject",
+					"-waitmutex",
+					"-clean"
+				],
+				"problemMatcher": "$msCompile",
+				"type": "shell",
+				"options": {
+					"cwd": "/home/the-cowboy/Unreal_Engine_5.4.4"
+				}
+			},
+			{
+				"label": "UE5_IntegrationEditor Linux Debug Build",
+				"group": "build",
+				"command": "Engine/Build/BatchFiles/Linux/Build.sh",
+				"args": [
+					"UE5_IntegrationEditor",
+					"Linux",
+					"Debug",
+					"/home/the-cowboy/UE5_Integration/UE5_Integration.uproject",
+					"-waitmutex"
+				],
+				"problemMatcher": "$msCompile",
+				"type": "shell",
+				"options": {
+					"cwd": "/home/the-cowboy/Unreal_Engine_5.4.4"
+				}
+			},
+			{
+				"label": "UE5_IntegrationEditor Linux Debug Rebuild",
+				"group": "build",
+				"command": "Engine/Build/BatchFiles/Linux/Build.sh",
+				"args": [
+					"UE5_IntegrationEditor",
+					"Linux",
+					"Debug",
+					"/home/the-cowboy/UE5_Integration/UE5_Integration.uproject",
+					"-waitmutex"
+				],
+				"problemMatcher": "$msCompile",
+				"dependsOn": [
+					"UE5_IntegrationEditor Linux Debug Clean"
+				],
+				"type": "shell",
+				"options": {
+					"cwd": "/home/the-cowboy/Unreal_Engine_5.4.4"
+				}
+			},
+			{
+				"label": "UE5_IntegrationEditor Linux Debug Clean",
+				"group": "build",
+				"command": "Engine/Build/BatchFiles/Linux/Build.sh",
+				"args": [
+					"UE5_IntegrationEditor",
+					"Linux",
+					"Debug",
+					"/home/the-cowboy/UE5_Integration/UE5_Integration.uproject",
+					"-waitmutex",
+					"-clean"
+				],
+				"problemMatcher": "$msCompile",
+				"type": "shell",
+				"options": {
+					"cwd": "/home/the-cowboy/Unreal_Engine_5.4.4"
+				}
+			},
+			{
+				"label": "UE5_IntegrationEditor Linux DebugGame Build",
+				"group": "build",
+				"command": "Engine/Build/BatchFiles/Linux/Build.sh",
+				"args": [
+					"UE5_IntegrationEditor",
+					"Linux",
+					"DebugGame",
+					"/home/the-cowboy/UE5_Integration/UE5_Integration.uproject",
+					"-waitmutex"
+				],
+				"problemMatcher": "$msCompile",
+				"type": "shell",
+				"options": {
+					"cwd": "/home/the-cowboy/Unreal_Engine_5.4.4"
+				}
+			},
+			{
+				"label": "UE5_IntegrationEditor Linux DebugGame Rebuild",
+				"group": "build",
+				"command": "Engine/Build/BatchFiles/Linux/Build.sh",
+				"args": [
+					"UE5_IntegrationEditor",
+					"Linux",
+					"DebugGame",
+					"/home/the-cowboy/UE5_Integration/UE5_Integration.uproject",
+					"-waitmutex"
+				],
+				"problemMatcher": "$msCompile",
+				"dependsOn": [
+					"UE5_IntegrationEditor Linux DebugGame Clean"
+				],
+				"type": "shell",
+				"options": {
+					"cwd": "/home/the-cowboy/Unreal_Engine_5.4.4"
+				}
+			},
+			{
+				"label": "UE5_IntegrationEditor Linux DebugGame Clean",
+				"group": "build",
+				"command": "Engine/Build/BatchFiles/Linux/Build.sh",
+				"args": [
+					"UE5_IntegrationEditor",
+					"Linux",
+					"DebugGame",
+					"/home/the-cowboy/UE5_Integration/UE5_Integration.uproject",
+					"-waitmutex",
+					"-clean"
+				],
+				"problemMatcher": "$msCompile",
+				"type": "shell",
+				"options": {
+					"cwd": "/home/the-cowboy/Unreal_Engine_5.4.4"
+				}
+			},
+			{
+				"label": "UE5_IntegrationEditor Linux Development Build",
+				"group": "build",
+				"command": "Engine/Build/BatchFiles/Linux/Build.sh",
+				"args": [
+					"UE5_IntegrationEditor",
+					"Linux",
+					"Development",
+					"/home/the-cowboy/UE5_Integration/UE5_Integration.uproject",
+					"-waitmutex"
+				],
+				"problemMatcher": "$msCompile",
+				"type": "shell",
+				"options": {
+					"cwd": "/home/the-cowboy/Unreal_Engine_5.4.4"
+				}
+			},
+			{
+				"label": "UE5_IntegrationEditor Linux Development Rebuild",
+				"group": "build",
+				"command": "Engine/Build/BatchFiles/Linux/Build.sh",
+				"args": [
+					"UE5_IntegrationEditor",
+					"Linux",
+					"Development",
+					"/home/the-cowboy/UE5_Integration/UE5_Integration.uproject",
+					"-waitmutex"
+				],
+				"problemMatcher": "$msCompile",
+				"dependsOn": [
+					"UE5_IntegrationEditor Linux Development Clean"
+				],
+				"type": "shell",
+				"options": {
+					"cwd": "/home/the-cowboy/Unreal_Engine_5.4.4"
+				}
+			},
+			{
+				"label": "UE5_IntegrationEditor Linux Development Clean",
+				"group": "build",
+				"command": "Engine/Build/BatchFiles/Linux/Build.sh",
+				"args": [
+					"UE5_IntegrationEditor",
+					"Linux",
+					"Development",
+					"/home/the-cowboy/UE5_Integration/UE5_Integration.uproject",
+					"-waitmutex",
+					"-clean"
+				],
+				"problemMatcher": "$msCompile",
+				"type": "shell",
+				"options": {
+					"cwd": "/home/the-cowboy/Unreal_Engine_5.4.4"
+				}
+			}
+		]
+	},
+	"launch": {
+		"version": "0.2.0",
+		"configurations": [
+			{
+				"name": "Launch UE5_Integration (Debug)",
+				"request": "launch",
+				"program": "/home/the-cowboy/UE5_Integration/Binaries/Linux/UnrealGame-Linux-Debug",
+				"preLaunchTask": "UE5_Integration Linux Debug Build",
+				"args": [
+				],
+				"cwd": "/home/the-cowboy/Unreal_Engine_5.4.4",
+				"type": "cppdbg",
+				"visualizerFile": "/home/the-cowboy/Unreal_Engine_5.4.4/Engine/Extras/VisualStudioDebugging/Unreal.natvis",
+				"showDisplayString": true
+			},
+			{
+				"name": "Launch UE5_Integration (DebugGame)",
+				"request": "launch",
+				"program": "/home/the-cowboy/UE5_Integration/Binaries/Linux/UnrealGame-Linux-DebugGame",
+				"preLaunchTask": "UE5_Integration Linux DebugGame Build",
+				"args": [
+				],
+				"cwd": "/home/the-cowboy/Unreal_Engine_5.4.4",
+				"type": "cppdbg",
+				"visualizerFile": "/home/the-cowboy/Unreal_Engine_5.4.4/Engine/Extras/VisualStudioDebugging/Unreal.natvis",
+				"showDisplayString": true
+			},
+			{
+				"name": "Launch UE5_Integration (Development)",
+				"request": "launch",
+				"program": "/home/the-cowboy/UE5_Integration/Binaries/Linux/UnrealGame",
+				"preLaunchTask": "UE5_Integration Linux Development Build",
+				"args": [
+				],
+				"cwd": "/home/the-cowboy/Unreal_Engine_5.4.4",
+				"type": "cppdbg",
+				"visualizerFile": "/home/the-cowboy/Unreal_Engine_5.4.4/Engine/Extras/VisualStudioDebugging/Unreal.natvis",
+				"showDisplayString": true
+			},
+			{
+				"name": "Launch UE5_Integration (Test)",
+				"request": "launch",
+				"program": "/home/the-cowboy/UE5_Integration/Binaries/Linux/UnrealGame-Linux-Test",
+				"preLaunchTask": "UE5_Integration Linux Test Build",
+				"args": [
+				],
+				"cwd": "/home/the-cowboy/Unreal_Engine_5.4.4",
+				"type": "cppdbg",
+				"visualizerFile": "/home/the-cowboy/Unreal_Engine_5.4.4/Engine/Extras/VisualStudioDebugging/Unreal.natvis",
+				"showDisplayString": true
+			},
+			{
+				"name": "Launch UE5_Integration (Shipping)",
+				"request": "launch",
+				"program": "/home/the-cowboy/UE5_Integration/Binaries/Linux/UnrealGame-Linux-Shipping",
+				"preLaunchTask": "UE5_Integration Linux Shipping Build",
+				"args": [
+				],
+				"cwd": "/home/the-cowboy/Unreal_Engine_5.4.4",
+				"type": "cppdbg",
+				"visualizerFile": "/home/the-cowboy/Unreal_Engine_5.4.4/Engine/Extras/VisualStudioDebugging/Unreal.natvis",
+				"showDisplayString": true
+			},
+			{
+				"name": "Launch UE5_IntegrationEditor (Debug)",
+				"request": "launch",
+				"program": "/home/the-cowboy/Unreal_Engine_5.4.4/Engine/Binaries/Linux/UnrealEditor-Linux-Debug",
+				"preLaunchTask": "UE5_IntegrationEditor Linux Debug Build",
+				"args": [
+					"/home/the-cowboy/UE5_Integration/UE5_Integration.uproject"
+				],
+				"cwd": "/home/the-cowboy/Unreal_Engine_5.4.4",
+				"type": "cppdbg",
+				"visualizerFile": "/home/the-cowboy/Unreal_Engine_5.4.4/Engine/Extras/VisualStudioDebugging/Unreal.natvis",
+				"showDisplayString": true
+			},
+			{
+				"name": "Launch UE5_IntegrationEditor (DebugGame)",
+				"request": "launch",
+				"program": "/home/the-cowboy/Unreal_Engine_5.4.4/Engine/Binaries/Linux/UnrealEditor-Linux-DebugGame",
+				"preLaunchTask": "UE5_IntegrationEditor Linux DebugGame Build",
+				"args": [
+					"/home/the-cowboy/UE5_Integration/UE5_Integration.uproject"
+				],
+				"cwd": "/home/the-cowboy/Unreal_Engine_5.4.4",
+				"type": "cppdbg",
+				"visualizerFile": "/home/the-cowboy/Unreal_Engine_5.4.4/Engine/Extras/VisualStudioDebugging/Unreal.natvis",
+				"showDisplayString": true
+			},
+			{
+				"name": "Launch UE5_IntegrationEditor (Development)",
+				"request": "launch",
+				"program": "/home/the-cowboy/Unreal_Engine_5.4.4/Engine/Binaries/Linux/UnrealEditor",
+				"preLaunchTask": "UE5_IntegrationEditor Linux Development Build",
+				"args": [
+					"/home/the-cowboy/UE5_Integration/UE5_Integration.uproject"
+				],
+				"cwd": "/home/the-cowboy/Unreal_Engine_5.4.4",
+				"type": "cppdbg",
+				"visualizerFile": "/home/the-cowboy/Unreal_Engine_5.4.4/Engine/Extras/VisualStudioDebugging/Unreal.natvis",
+				"showDisplayString": true
+			},
+			{
+				"name": "Generate Project Files",
+				"type": "coreclr",
+				"request": "launch",
+				"preLaunchTask": "UnrealBuildTool Linux Development Build",
+				"program": "/home/the-cowboy/Unreal_Engine_5.4.4/Engine/Build/BatchFiles/RunUBT.bat",
+				"args": [
+					"-projectfiles",
+					"-vscode",
+					"-project=/home/the-cowboy/UE5_Integration/UE5_Integration.uproject",
+					"-game",
+					"-engine",
+					"-dotnet"
+				],
+				"console": "internalConsole",
+				"internalConsoleOptions": "openOnSessionStart",
+				"stopAtEntry": false,
+				"cwd": "/home/the-cowboy/Unreal_Engine_5.4.4"
+			}
+		]
+	}
+}
