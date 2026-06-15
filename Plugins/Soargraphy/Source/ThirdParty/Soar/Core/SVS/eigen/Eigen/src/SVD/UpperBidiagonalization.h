@@ -154,9 +154,9 @@ void upperbidiagonalization_blocked_helper(MatrixType& A,
                                            typename MatrixType::RealScalar *upper_diagonal,
                                            Index bs,
                                            Ref<Matrix<typename MatrixType::Scalar, Dynamic, Dynamic,
-                                                      traits<MatrixType>::Flags & RowMajorBit> > X,
+                                                      traits<MatrixType>::Flags & RowMajorBit> > X1,
                                            Ref<Matrix<typename MatrixType::Scalar, Dynamic, Dynamic,
-                                                      traits<MatrixType>::Flags & RowMajorBit> > Y)
+                                                      traits<MatrixType>::Flags & RowMajorBit> > Y1)
 {
   typedef typename MatrixType::Scalar Scalar;
   typedef typename MatrixType::RealScalar RealScalar;
@@ -178,21 +178,21 @@ void upperbidiagonalization_blocked_helper(MatrixType& A,
     Index remainingRows = brows - k;
     Index remainingCols = bcols - k - 1;
 
-    SubMatType X_k1( X.block(k,0, remainingRows,k) );
+    SubMatType X_k1( X1.block(k,0, remainingRows,k) );
     SubMatType V_k1( A.block(k,0, remainingRows,k) );
 
     // 1 - update the k-th column of A
     SubColumnType v_k = A.col(k).tail(remainingRows);
-          v_k -= V_k1 * Y.row(k).head(k).adjoint();
+          v_k -= V_k1 * Y1.row(k).head(k).adjoint();
     if(k) v_k -= X_k1 * A.col(k).head(k);
     
     // 2 - construct left Householder transform in-place
     v_k.makeHouseholderInPlace(tau_v, diagonal[k]);
        
-    if(k+1<bcols)
+    if(k+1 < bcols)
     {
-      SubMatType Y_k  ( Y.block(k+1,0, remainingCols, k+1) );
-      SubMatType U_k1 ( A.block(0,k+1, k,remainingCols) );
+      SubMatType Y_k  ( Y1.block(k+1, 0, remainingCols, k+1) );
+      SubMatType U_k1 ( A.block(0, k+1, k,remainingCols) );
       
       // this eases the application of Householder transforAions
       // A(k,k) will store tau_v later
@@ -200,10 +200,10 @@ void upperbidiagonalization_blocked_helper(MatrixType& A,
 
       // 3 - Compute y_k^T = tau_v * ( A^T*v_k - Y_k-1*V_k-1^T*v_k - U_k-1*X_k-1^T*v_k )
       {
-        SubColumnType y_k( Y.col(k).tail(remainingCols) );
+        SubColumnType y_k( Y1.col(k).tail(remainingCols) );
         
         // let's use the beginning of column k of Y as a temporary vector
-        SubColumnType tmp( Y.col(k).head(k) );
+        SubColumnType tmp( Y1.col(k).head(k) );
         y_k.noalias()  = A.block(k,k+1, remainingRows,remainingCols).adjoint() * v_k; // bottleneck
         tmp.noalias()  = V_k1.adjoint()  * v_k;
         y_k.noalias() -= Y_k.leftCols(k) * tmp;
@@ -217,7 +217,7 @@ void upperbidiagonalization_blocked_helper(MatrixType& A,
       u_k = u_k.conjugate();
       {
         u_k -= Y_k * A.row(k).head(k+1).adjoint();
-        if(k) u_k -= U_k1.adjoint() * X.row(k).head(k).adjoint();
+        if(k) u_k -= U_k1.adjoint() * X1.row(k).head(k).adjoint();
       }
 
       // 5 - construct right Householder transform in-place
@@ -229,12 +229,12 @@ void upperbidiagonalization_blocked_helper(MatrixType& A,
 
       // 6 - Compute x_k = tau_u * ( A*u_k - X_k-1*U_k-1^T*u_k - V_k*Y_k^T*u_k )
       {
-        SubColumnType x_k ( X.col(k).tail(remainingRows-1) );
+        SubColumnType x_k ( X1.col(k).tail(remainingRows-1) );
         
         // let's use the beginning of column k of X as a temporary vectors
         // note that tmp0 and tmp1 overlaps
-        SubColumnType tmp0 ( X.col(k).head(k) ),
-                      tmp1 ( X.col(k).head(k+1) );
+        SubColumnType tmp0 ( X1.col(k).head(k) ),
+                      tmp1 ( X1.col(k).head(k+1) );
                     
         x_k.noalias()   = A.block(k+1,k+1, remainingRows-1,remainingCols) * u_k.transpose(); // bottleneck
         tmp0.noalias()  = U_k1 * u_k.transpose();
@@ -267,7 +267,7 @@ void upperbidiagonalization_blocked_helper(MatrixType& A,
     Scalar tmp = A01(bs-1,0);
     A01(bs-1,0) = Literal(1);
     A11.noalias() -= A10 * Y.topLeftCorner(bcols,bs).bottomRows(bcols-bs).adjoint();
-    A11.noalias() -= X.topLeftCorner(brows,bs).bottomRows(brows-bs) * A01;
+    A11.noalias() -= X1.topLeftCorner(brows,bs).bottomRows(brows-bs) * A01;
     A01(bs-1,0) = tmp;
   }
 }
@@ -298,12 +298,12 @@ void upperbidiagonalization_inplace_blocked(MatrixType& A, BidiagType& bidiagona
          MatrixType::RowsAtCompileTime,
          Dynamic,
          StorageOrder,
-         MatrixType::MaxRowsAtCompileTime> X(rows,maxBlockSize);
+         MatrixType::MaxRowsAtCompileTime> X1(rows,maxBlockSize);
   Matrix<Scalar,
          MatrixType::ColsAtCompileTime,
          Dynamic,
          StorageOrder,
-         MatrixType::MaxColsAtCompileTime> Y(cols,maxBlockSize);
+         MatrixType::MaxColsAtCompileTime> Y1(cols,maxBlockSize);
   Index blockSize = (std::min)(maxBlockSize,size);
 
   Index k = 0;
@@ -338,7 +338,7 @@ void upperbidiagonalization_inplace_blocked(MatrixType& A, BidiagType& bidiagona
       upperbidiagonalization_inplace_unblocked(B,
                                                &(bidiagonal.template diagonal<0>().coeffRef(k)),
                                                &(bidiagonal.template diagonal<1>().coeffRef(k)),
-                                               X.data()
+                                               X1.data()
                                               );
       break; // We're done
     }
@@ -348,8 +348,8 @@ void upperbidiagonalization_inplace_blocked(MatrixType& A, BidiagType& bidiagona
                                                         &(bidiagonal.template diagonal<0>().coeffRef(k)),
                                                         &(bidiagonal.template diagonal<1>().coeffRef(k)),
                                                         bs,
-                                                        X.topLeftCorner(brows,bs),
-                                                        Y.topLeftCorner(bcols,bs)
+                                                        X1.topLeftCorner(brows,bs),
+                                                        Y1.topLeftCorner(bcols,bs)
                                                       );
     }
   }

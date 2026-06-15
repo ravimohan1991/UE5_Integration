@@ -72,7 +72,7 @@ template <typename _MatrixType> class CompleteOrthogonalDecomposition
       RealRowVectorType;
   typedef HouseholderSequence<
       MatrixType, typename internal::remove_all<
-                      typename HCoeffsType::ConjugateReturnType>::type>
+                      typename HCoeffsType::ConjugateReturnT#include "../../util/Meta.h"ype>::type>
       HouseholderSequenceType;
   typedef typename MatrixType::PlainObject PlainObject;
 
@@ -159,9 +159,9 @@ template <typename _MatrixType> class CompleteOrthogonalDecomposition
   /** \returns the matrix \b Z.
    */
   MatrixType matrixZ() const {
-    MatrixType Z = MatrixType::Identity(m_cpqr.cols(), m_cpqr.cols());
-    applyZOnTheLeftInPlace<false>(Z);
-    return Z;
+    MatrixType Z1 = MatrixType::Identity(m_cpqr.cols(), m_cpqr.cols());
+    applyZOnTheLeftInPlace<false>(Z1);
+    return Z1;
   }
 
   /** \returns a reference to the matrix where the complete orthogonal

@@ -211,7 +211,7 @@ std::ostream& output_cvec(std::ostream& os, const cvec& v, const std::string& se
 std::ostream& output_mat(std::ostream& os, const const_mat_view m);
 
 bool normal(const_mat_view m);
-bool uniform(const_mat_view X);
+bool uniform(const_mat_view X1);
 void randomize_vec(rvec& v, const rvec& min, const rvec& max);
 void randomize_vec(vec3& v, const vec3& min, const vec3& max);
 
@@ -220,19 +220,19 @@ void randomize_vec(vec3& v, const vec3& min, const vec3& max);
  meaning the maximum absolute value of the column is greater than
  SAME_THRESH times the minimum absolute value.
 */
-void get_nonuniform_cols(const_mat_view X, int ncols, std::vector<int>& cols);
+void get_nonuniform_cols(const_mat_view X1, int ncols, std::vector<int>& cols);
 
 /*
  Remove the static columns from the first 'ncols' columns of X. This
  will not resize the matrix. Upon completion, the cols vector will
  contain the original column indexes that were not removed.
 */
-void del_uniform_cols(mat_view X, int ncols, std::vector<int>& cols);
+void del_uniform_cols(mat_view X1, int ncols, std::vector<int>& cols);
 
-void pick_cols(const_mat_view X, const std::vector<int>& cols, mat& result);
-void pick_rows(const_mat_view X, const std::vector<int>& rows, mat& result);
-void pick_cols(mat_view X, const std::vector<int>& cols);
-void pick_rows(mat_view X, const std::vector<int>& rows);
+void pick_cols(const_mat_view X1, const std::vector<int>& cols, mat& result);
+void pick_rows(const_mat_view X1, const std::vector<int>& rows, mat& result);
+void pick_cols(mat_view X1, const std::vector<int>& cols);
+void pick_rows(mat_view X1, const std::vector<int>& rows);
 
 /*
  Calculate the maximum difference between points in two point clouds in

@@ -693,10 +693,10 @@ struct has_binary_operator
 /** \internal In short, it computes int(sqrt(\a Y)) with \a Y an integer.
   * Usage example: \code meta_sqrt<1023>::ret \endcode
   */
-template<int Y,
+template<int Y1,
          int InfX = 0,
-         int SupX = ((Y==1) ? 1 : Y/2),
-         bool Done = ((SupX-InfX)<=1 ? true : ((SupX*SupX <= Y) && ((SupX+1)*(SupX+1) > Y))) >
+         int SupX = ((Y1 == 1) ? 1 : Y1/2),
+         bool Done = ((SupX - InfX) <= 1 ? true : ((SupX*SupX <= Y1) && ((SupX + 1)*(SupX + 1) > Y1))) >
                                 // use ?: instead of || just to shut up a stupid gcc 4.3 warning
 class meta_sqrt
 {
@@ -710,8 +710,8 @@ class meta_sqrt
     enum { ret = meta_sqrt<Y,NewInf,NewSup>::ret };
 };
 
-template<int Y, int InfX, int SupX>
-class meta_sqrt<Y, InfX, SupX, true> { public:  enum { ret = (SupX*SupX <= Y) ? SupX : InfX }; };
+template<int Y1, int InfX, int SupX>
+class meta_sqrt<Y1, InfX, SupX, true> { public:  enum { ret = (SupX * SupX <= Y) ? SupX : InfX }; };
 
 
 /** \internal Computes the least common multiple of two positive integer A and B
@@ -783,8 +783,8 @@ T div_ceil(const T &a, const T &b)
 
 // The aim of the following functions is to bypass -Wfloat-equal warnings
 // when we really want a strict equality comparison on floating points.
-template<typename X, typename Y> EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC
-bool equal_strict(const X& x,const Y& y) { return x == y; }
+template<typename X1, typename Y1> EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC
+bool equal_strict(const X1& x,const Y1& y) { return x == y; }
 
 #if !defined(EIGEN_GPU_COMPILE_PHASE) || (!defined(EIGEN_CUDA_ARCH) && defined(EIGEN_CONSTEXPR_ARE_DEVICE_FUNC))
 template<> EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC
@@ -794,8 +794,8 @@ template<> EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC
 bool equal_strict(const double& x,const double& y) { return std::equal_to<double>()(x,y); }
 #endif
 
-template<typename X, typename Y> EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC
-bool not_equal_strict(const X& x,const Y& y) { return x != y; }
+template<typename X1, typename Y1> EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC
+bool not_equal_strict(const X1& x,const Y1& y) { return x != y; }
 
 #if !defined(EIGEN_GPU_COMPILE_PHASE) || (!defined(EIGEN_CUDA_ARCH) && defined(EIGEN_CONSTEXPR_ARE_DEVICE_FUNC))
 template<> EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC

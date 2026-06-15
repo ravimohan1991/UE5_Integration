@@ -11,6 +11,8 @@
 #ifndef EIGEN_MATHFUNCTIONS_H
 #define EIGEN_MATHFUNCTIONS_H
 
+#include "util/Meta.h"
+
 // TODO this should better be moved to NumTraits
 // Source: WolframAlpha
 #define EIGEN_PI    3.141592653589793238462643383279502884197169399375105820974944592307816406L
