@@ -721,7 +721,8 @@ void Lexer::determine_possible_symbol_types_for_string (const char *s,
     *rereadable = false;
 
     /* --- check if it's an integer or floating point number --- */
-    if (number_starters[static_cast<unsigned char>(*s)]) {
+    if (number_starters[static_cast<unsigned char>(*s)]) 
+    {
         ch = s;
         if ((*ch=='+')||(*ch=='-'))
             ch++;                               /* optional leading + or - */
@@ -748,8 +749,10 @@ void Lexer::determine_possible_symbol_types_for_string (const char *s,
     /* --- make sure it's entirely constituent characters --- */
     /* --- check for rereadability --- */
     all_alphanum = true;
-    for (ch=s; *ch!='\0'; ch++) {
-        if (!isalnum(*ch)) {
+    for (ch=s; *ch!='\0'; ch++) 
+    {
+        if (!isalnum(*ch)) 
+        {
             all_alphanum = false;
         }
         if (!constituent_char[static_cast<unsigned char>(*ch)]) return;
@@ -765,14 +768,15 @@ void Lexer::determine_possible_symbol_types_for_string (const char *s,
     *possible_sc = true;
 
     /* --- check whether it's a variable --- */
-    if ((*s=='<')&&(*(s+length_of_s-1)=='>'))
+    if ((*s == '<') && (*( s + length_of_s - 1 ) == '>'))
         *possible_var = true;
 
     /* --- check if it's an identifier --- */
     // long term identifiers start with @
-        ch = s;
+    ch = s;
 
-    if (isalpha(*ch) && *(++ch) != '\0') {
+    if (isalpha(*ch) && *(++ch) != '\0') 
+    {
         /* --- is the rest of the string an integer? --- */
         while (isdigit(*ch))
             ch++;

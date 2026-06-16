@@ -701,17 +701,17 @@ template<int Y1,
 class meta_sqrt
 {
     enum {
-      MidX = (InfX+SupX)/2,
-      TakeInf = MidX*MidX > Y ? 1 : 0,
+      MidX = (InfX + SupX)/2,
+      TakeInf = MidX * MidX > Y1 ? 1 : 0,
       NewInf = int(TakeInf) ? InfX : int(MidX),
       NewSup = int(TakeInf) ? int(MidX) : SupX
     };
   public:
-    enum { ret = meta_sqrt<Y,NewInf,NewSup>::ret };
+    enum { ret = meta_sqrt<Y1, NewInf, NewSup>::ret };
 };
 
 template<int Y1, int InfX, int SupX>
-class meta_sqrt<Y1, InfX, SupX, true> { public:  enum { ret = (SupX * SupX <= Y) ? SupX : InfX }; };
+class meta_sqrt<Y1, InfX, SupX, true> { public:  enum { ret = (SupX * SupX <= Y1) ? SupX : InfX }; };
 
 
 /** \internal Computes the least common multiple of two positive integer A and B

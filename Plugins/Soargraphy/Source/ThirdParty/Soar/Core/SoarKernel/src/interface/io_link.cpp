@@ -537,7 +537,7 @@ void inform_output_module_of_wm_changes(agent* thisAgent,
             thisAgent->output_link_changed = true; /* KJC 11/23/98 */
             thisAgent->d_cycle_last_output = thisAgent->d_cycle_count;   /* KJC 11/17/05 */
         }
-
+/*
 #if DEBUG_RTO
         else
         {
@@ -550,6 +550,7 @@ void inform_output_module_of_wm_changes(agent* thisAgent,
             }
         }
 #endif
+*/
 
     }
     for (c = wmes_being_removed; c != NIL; c = c->rest)

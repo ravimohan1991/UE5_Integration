@@ -1211,9 +1211,9 @@ Symbol* round_off_air_rhs_function_code(agent* thisAgent, cons* args, void* /*us
     }
 }
 
-#define PI 3.141592653589
+//#define PI 3.141592653589
 #define PI_OVER_TWO (PI/2)
-#define TWO_PI (PI*2)
+//#define TWO_PI (PI*2)
 #define RAD_TO_DEG(X) ((X*180)/PI)
 #define X 0
 #define Y 1

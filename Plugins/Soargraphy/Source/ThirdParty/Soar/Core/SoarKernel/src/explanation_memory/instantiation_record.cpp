@@ -223,7 +223,7 @@ void instantiation_record::print_for_wme_trace(bool isChunk, bool printFooter)
         condition_record* lCond;
         bool lInNegativeConditions = false;
         int lConditionCount = 0;
-        action* rhs;
+        action* rhs = nullptr;
         test id_test_without_goal_test = NULL;
 
         outputManager->set_column_indent(0, 7);
@@ -554,7 +554,7 @@ void instantiation_record::viz_wm_instantiation(visObjectType objectType)
         condition_record* lCond;
         bool lInNegativeConditions = false;
         int lConditionCount = 0;
-        action* rhs;
+        action* rhs = nullptr;
 
         thisAgent->outputManager->set_print_test_format(false, true);
         thisAgent->visualizationManager->viz_object_start(production_name, instantiationID, objectType);

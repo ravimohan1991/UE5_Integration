@@ -523,7 +523,10 @@ bool scene::parse_sgel(const std::string& s)
                 errfield = parse_tag(fields, error);
                 break;
             default:
-                std::cerr << "expecting add, delete, change, tag at start of line '" << *i << "'" << std::endl;
+                {
+                    std::cerr << "expecting add, delete, change, tag at start of line '" << *i << "'" << std::endl;
+                    errfield = -2;
+                }
         }
 
         if (errfield >= 0)

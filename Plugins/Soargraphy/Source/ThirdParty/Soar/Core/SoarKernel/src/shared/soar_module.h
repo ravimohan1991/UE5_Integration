@@ -1403,7 +1403,7 @@ namespace soar_module
     ///////////////////////////////////////////////////////////////////////////
 
     template <class T, int N, unsigned int R>
-    class bla_object_memory : public object_memory<T, N>
+    class bla_object_memory final : public object_memory<T, N>
     {
         protected:
             // helps avoid verbose types below

@@ -5,7 +5,6 @@ public class ThirdParty : ModuleRules
 {
     public ThirdParty(ReadOnlyTargetRules Target) : base(Target)
     {
-
         // Optional: define macro
         PublicDefinitions.Add("WITH_MYLIB=1");
 
@@ -48,6 +47,11 @@ public class ThirdParty : ModuleRules
 			}
 		);
 
+        PublicDependencyModuleNames.AddRange(new string[] {
+            "SQLiteCore",   // Provides the core SQLite C API
+            "SQLiteSupport" // Provides Unreal-friendly wrappers
+        });
+
         PrivateIncludePaths.AddRange(
             new string[] {
                 Path.Combine(ModuleDirectory, "Soar/Core/CLI/src")
@@ -56,12 +60,15 @@ public class ThirdParty : ModuleRules
 
         if (Target.Platform == UnrealTargetPlatform.Linux)
         {
+            // This is the UBT equivalent of passing "-ldl" to the Linux linker
+            PublicSystemLibraries.Add("dl");
+
             // Library path
-            string LibPath = Path.Combine(ModuleDirectory, "Soar/lib/Linux");
-            PublicAdditionalLibraries.Add(Path.Combine(LibPath, "libSoar.so"));  // [web:26][web:33]
+            //string LibPath = Path.Combine(ModuleDirectory, "Soar/lib/Linux");
+           // PublicAdditionalLibraries.Add(Path.Combine(LibPath, "libSoar.so"));  // [web:26][web:33]
 
             // For .so that needs runtime loading:
-            RuntimeDependencies.Add(Path.Combine(LibPath, "libSoar.so"));
+           // RuntimeDependencies.Add(Path.Combine(LibPath, "libSoar.so"));
         }
     }
 }

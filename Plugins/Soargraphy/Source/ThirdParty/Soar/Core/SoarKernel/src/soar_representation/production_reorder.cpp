@@ -292,7 +292,8 @@ saved_test* simplify_test(agent* thisAgent, test* t, saved_test* old_sts)
     test ct, New, subtest;
     saved_test* saved;
     Symbol* var, *sym;
-    cons* c, *prev_c, *next_c;
+    cons* c = nullptr;
+    cons* prev_c, *next_c;
     uint64_t sym_identity = LITERAL_VALUE;
     test sym_identity_set_test;
 

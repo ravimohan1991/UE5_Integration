@@ -42,15 +42,12 @@ EmbeddedConnection::~EmbeddedConnection()
     delete m_pLastResponse ;
 }
 
-/*************************************************************
-* @brief Simple function that does the casting from the handle
-*        (which we passed to the other side of the connection)
-*        back to its original object.
-*************************************************************/
+// Duplicate of GetConnectionFromHandle in KernelSMLInterface
+/*
 EmbeddedConnection* GetConnectionFromHandle(Connection_Receiver_Handle hConnection)
 {
     return reinterpret_cast<EmbeddedConnection*>(hConnection);
-}
+}*/
 
 /*************************************************************
 * @brief    This is the raw function which will be called by the other

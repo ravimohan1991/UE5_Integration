@@ -266,7 +266,7 @@ void upperbidiagonalization_blocked_helper(MatrixType& A,
     SubMatType A01( A.block(0,bs, bs,bcols-bs) );
     Scalar tmp = A01(bs-1,0);
     A01(bs-1,0) = Literal(1);
-    A11.noalias() -= A10 * Y.topLeftCorner(bcols,bs).bottomRows(bcols-bs).adjoint();
+    A11.noalias() -= A10 * Y1.topLeftCorner(bcols,bs).bottomRows(bcols-bs).adjoint();
     A11.noalias() -= X1.topLeftCorner(brows,bs).bottomRows(brows-bs) * A01;
     A01(bs-1,0) = tmp;
   }

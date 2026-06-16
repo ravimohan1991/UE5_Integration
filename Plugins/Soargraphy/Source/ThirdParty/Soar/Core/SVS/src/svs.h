@@ -15,12 +15,14 @@ class scene;
 class drawer;
 
 /* working memory scene graph object - mediates between wmes and scene graph nodes */
-class sgwme : public sgnode_listener
+class sgwme final: public sgnode_listener
 {
     public:
         sgwme(soar_interface* si, Symbol* ident, sgwme* parent, sgnode* node);
         ~sgwme();
-        void node_update(sgnode* n, sgnode::change_type t, const std::string& update_info);
+
+        void node_update(sgnode* n, sgnode::change_type t, const std::string& update_info) override;
+        
         Symbol* get_id()
         {
             return id;

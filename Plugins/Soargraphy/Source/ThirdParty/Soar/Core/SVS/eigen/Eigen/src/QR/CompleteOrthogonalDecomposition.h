@@ -10,6 +10,8 @@
 #ifndef EIGEN_COMPLETEORTHOGONALDECOMPOSITION_H
 #define EIGEN_COMPLETEORTHOGONALDECOMPOSITION_H
 
+#include "../Core/util/Meta.h"
+
 namespace Eigen {
 
 namespace internal {
@@ -72,7 +74,7 @@ template <typename _MatrixType> class CompleteOrthogonalDecomposition
       RealRowVectorType;
   typedef HouseholderSequence<
       MatrixType, typename internal::remove_all<
-                      typename HCoeffsType::ConjugateReturnT#include "../../util/Meta.h"ype>::type>
+                      typename HCoeffsType::ConjugateReturnType>::type>
       HouseholderSequenceType;
   typedef typename MatrixType::PlainObject PlainObject;
 

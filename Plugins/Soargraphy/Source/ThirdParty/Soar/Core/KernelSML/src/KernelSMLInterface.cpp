@@ -38,6 +38,11 @@ soarxml::ElementXML* ReceivedCall(Connection* pConnection, soarxml::ElementXML* 
     return pKernel->ProcessIncomingSML(pConnection, pIncoming) ;
 }
 
+/*************************************************************
+* @brief Simple function that does the casting from the handle
+*        (which we passed to the other side of the connection)
+*        back to its original object.
+*************************************************************/
 static EmbeddedConnection* GetConnectionFromHandle(Connection_Receiver_Handle hConnection)
 {
     return reinterpret_cast<EmbeddedConnection*>(hConnection) ;
