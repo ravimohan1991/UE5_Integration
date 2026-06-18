@@ -5,8 +5,9 @@
  *      Author: mazzin
  */
 
-#include "semantic_memory.h"
 #include "smem_timers.h"
+
+#include "semantic_memory.h"
 #include "smem_settings.h"
 
 smem_timer_container::smem_timer_container(agent* new_agent): soar_module::timer_container(new_agent)

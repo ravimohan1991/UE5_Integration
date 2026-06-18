@@ -1,5 +1,3 @@
-#include "portability.h"
-
 /////////////////////////////////////////////////////////////////
 // ParseXML class
 //
@@ -24,6 +22,8 @@
 
 #include "ParseXML.h"
 #include "ElementXMLImpl.h"
+
+#include "portability.h"
 
 using namespace soarxml;
 

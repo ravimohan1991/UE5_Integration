@@ -1,5 +1,3 @@
-// Copyright Epic Games, Inc. All Rights Reserved.
-
 #include "UE5_Integration.h"
 #include "Modules/ModuleManager.h"
 

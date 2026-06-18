@@ -1,5 +1,3 @@
-#include "portability.h"
-
 /////////////////////////////////////////////////////////////////
 // EmbeddedConnectionSynch class
 //
@@ -13,11 +11,13 @@
 //
 /////////////////////////////////////////////////////////////////
 
-#include "sml_Utils.h"
 #include "sml_EmbeddedConnectionSynch.h"
+#include "sml_Utils.h"
 #include "ElementXML.h"
 #include "sml_MessageSML.h"
 #include "thread_Thread.h"
+
+#include "portability.h"
 
 #include <string>
 #include <iostream>

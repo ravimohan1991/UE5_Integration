@@ -1,5 +1,3 @@
-#include "portability.h"
-
 /////////////////////////////////////////////////////////////////
 // ListenerSocket class
 //
@@ -11,6 +9,7 @@
 // actually used to send data.
 //
 /////////////////////////////////////////////////////////////////
+#include "portability.h"
 #include "sock_ListenerSocket.h"
 #include "sml_Utils.h"
 #include "sock_OSspecific.h"

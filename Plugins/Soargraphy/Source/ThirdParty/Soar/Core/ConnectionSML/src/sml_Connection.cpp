@@ -1,5 +1,3 @@
-#include "portability.h"
-
 /////////////////////////////////////////////////////////////////
 // Connection class
 //
@@ -18,9 +16,9 @@
 // being used to provide the different types of connections.
 //
 /////////////////////////////////////////////////////////////////
-
-#include "sml_Utils.h"
 #include "sml_Connection.h"
+#include "sml_Utils.h"
+#include "portability.h"
 #include "ElementXML.h"
 #include "sml_MessageSML.h"
 #include "sml_EmbeddedConnection.h"

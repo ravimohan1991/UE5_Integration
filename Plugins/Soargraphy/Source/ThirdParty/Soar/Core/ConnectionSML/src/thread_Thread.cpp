@@ -1,5 +1,3 @@
-#include "portability.h"
-
 /////////////////////////////////////////////////////////////////
 // Thread class
 //
@@ -12,9 +10,9 @@
 // Then create an instance of your class and call "Start".
 //
 /////////////////////////////////////////////////////////////////
-
-#include "sml_Utils.h"
 #include "thread_Thread.h"
+#include "portability.h"
+#include "sml_Utils.h"
 #include "thread_OSspecific.h"
 
 using namespace soar_thread ;

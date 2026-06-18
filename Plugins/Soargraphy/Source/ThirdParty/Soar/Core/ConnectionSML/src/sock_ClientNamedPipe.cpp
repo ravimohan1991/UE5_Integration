@@ -1,5 +1,3 @@
-#include "portability.h"
-
 /////////////////////////////////////////////////////////////////
 // ClientNamedPipe class
 //
@@ -15,8 +13,11 @@
 
 #ifdef ENABLE_NAMED_PIPES
 
-#include "sml_Utils.h"
 #include "sock_ClientNamedPipe.h"
+#include "sml_Utils.h"
+
+#include "portability.h"
+
 #include <cassert>
 
 using namespace sock ;

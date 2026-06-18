@@ -1,5 +1,3 @@
-#include "portability.h"
-
 /////////////////////////////////////////////////////////////////
 // Lock class
 //
@@ -22,6 +20,8 @@
 
 #include "thread_Lock.h"
 #include "thread_OSspecific.h"
+
+#include "portability.h"
 
 using namespace soar_thread ;
 

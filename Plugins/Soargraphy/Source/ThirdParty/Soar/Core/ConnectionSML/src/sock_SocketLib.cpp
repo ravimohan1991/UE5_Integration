@@ -1,5 +1,3 @@
-#include "portability.h"
-
 /////////////////////////////////////////////////////////////////
 // SocketLib class
 //
@@ -10,7 +8,7 @@
 // the appropriate platform.
 //
 /////////////////////////////////////////////////////////////////
-
+#include "portability.h"
 #include "sock_SocketLib.h"
 #include "sock_OSspecific.h"
 

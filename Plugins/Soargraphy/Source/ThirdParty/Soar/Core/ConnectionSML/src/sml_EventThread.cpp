@@ -1,5 +1,3 @@
-#include "portability.h"
-
 /////////////////////////////////////////////////////////////////
 // EventThread class
 //
@@ -18,12 +16,13 @@
 //
 /////////////////////////////////////////////////////////////////
 
-#include "sml_Utils.h"
 #include "sml_EventThread.h"
+#include "sml_Utils.h"
 #include "sml_Connection.h"
 
 #include <time.h>   // To get clock
 
+#include "portability.h"
 using namespace sml ;
 
 EventThread::EventThread(Connection* pConnection)

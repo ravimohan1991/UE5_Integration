@@ -1,5 +1,3 @@
-#include "portability.h"
-
 /////////////////////////////////////////////////////////////////
 // Socket class
 //
@@ -21,10 +19,10 @@
 // on the listener socket.
 //
 /////////////////////////////////////////////////////////////////
-
+#include "portability.h"
+#include "sock_Socket.h"
 #include <stdio.h>
 #include "sml_Utils.h"
-#include "sock_Socket.h"
 
 #include <cstdlib>
 #include <cassert>

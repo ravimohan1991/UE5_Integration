@@ -1,5 +1,3 @@
-#include "portability.h"
-
 /////////////////////////////////////////////////////////////////
 // ParseXMLFile class
 //
@@ -15,6 +13,8 @@
 
 #include "ParseXMLFile.h"
 #include "ElementXMLImpl.h"
+
+#include "portability.h"
 
 #include <cstdio>
 

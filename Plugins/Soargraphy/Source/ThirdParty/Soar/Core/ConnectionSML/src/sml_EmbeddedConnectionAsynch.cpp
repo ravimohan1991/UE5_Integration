@@ -1,5 +1,3 @@
-#include "portability.h"
-
 /////////////////////////////////////////////////////////////////
 // EmbeddedConnectionAsynch class
 //
@@ -16,12 +14,13 @@
 // that if you're changing something here you should probably also be changing it there.
 //
 /////////////////////////////////////////////////////////////////
-
-#include "sml_Utils.h"
 #include "sml_EmbeddedConnectionAsynch.h"
+#include "sml_Utils.h"
 #include "ElementXML.h"
 #include "sml_MessageSML.h"
 #include "thread_Thread.h"
+
+#include "portability.h"
 
 #include <string>
 #include <iostream>

@@ -1,0 +1,4 @@
+1. Compile project for PIE
+ /home/the-cowboy/Unreal_Engine_5.4.4/Engine/Build/BatchFiles/Linux/Build.sh Development Linux -Project="/home/the-cowboy/UE5_Integration/UE5_Integration.uproject" -TargetType=Editor -Progress
+2. PIE
+/home/the-cowboy/Unreal_Engine_5.4.4/Engine/Binaries/Linux/UnrealEditor /home/the-cowboy/UE5_Integration/UE5_Integration.uproject 

@@ -1,5 +1,3 @@
-#include "portability.h"
-
 /////////////////////////////////////////////////////////////////
 // RemoteConnection class
 //
@@ -15,11 +13,12 @@
 //
 /////////////////////////////////////////////////////////////////
 
-#include "sml_Utils.h"
 #include "sml_RemoteConnection.h"
+#include "sml_Utils.h"
 #include "sock_Socket.h"
 #include "thread_Thread.h"
 
+#include "portability.h"
 #include <cassert>
 
 using namespace sml ;

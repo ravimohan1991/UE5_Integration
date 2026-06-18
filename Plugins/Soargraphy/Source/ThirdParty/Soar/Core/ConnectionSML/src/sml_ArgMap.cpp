@@ -1,5 +1,3 @@
-#include "portability.h"
-
 /////////////////////////////////////////////////////////////////
 // ArgMap class
 //
@@ -11,6 +9,8 @@
 /////////////////////////////////////////////////////////////////
 
 #include "sml_ArgMap.h"
+#include "portability.h"
+
 #include "ElementXML.h"
 #include "sml_Names.h"
 #include "ElementXMLInterface.h"

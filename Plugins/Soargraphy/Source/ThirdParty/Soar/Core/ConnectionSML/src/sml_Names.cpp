@@ -1,5 +1,3 @@
-#include "portability.h"
-
 /////////////////////////////////////////////////////////////////
 //sml_Names
 //
@@ -13,6 +11,7 @@
 #include "sml_Names.h"
 #include "soarversion.h"
 
+#include "portability.h"
 #include <cassert>
 
 using namespace sml ;

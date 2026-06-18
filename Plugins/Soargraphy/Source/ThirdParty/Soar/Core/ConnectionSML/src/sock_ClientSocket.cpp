@@ -1,5 +1,3 @@
-#include "portability.h"
-
 /////////////////////////////////////////////////////////////////
 // ClientSocket class
 //
@@ -10,8 +8,9 @@
 // IP address and port number.
 //
 /////////////////////////////////////////////////////////////////
-#include "sml_Utils.h"
+#include "portability.h"
 #include "sock_ClientSocket.h"
+#include "sml_Utils.h"
 #include "sock_OSspecific.h"
 
 #include <sstream>

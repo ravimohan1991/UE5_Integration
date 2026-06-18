@@ -1,5 +1,3 @@
-#include "portability.h"
-
 /////////////////////////////////////////////////////////////////
 // AnalyzeXML class
 //
@@ -18,14 +16,16 @@
 // This class represents those references into the document.
 /////////////////////////////////////////////////////////////////
 
-#include <cstdlib>
-
 #include "sml_AnalyzeXML.h"
 #include "ElementXML.h"
 #include "sml_Names.h"
 #include "sml_StringOps.h"
 #include "ElementXMLInterface.h"
 #include "misc.h"
+
+#include "portability.h"
+
+#include <cstdlib>
 
 using namespace sml ;
 using namespace soarxml;

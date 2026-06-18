@@ -1,6 +1,5 @@
-#include "portability.h"
-
 #include "sock_DataSender.h"
+#include "portability.h"
 
 using namespace sock ;
 

@@ -1,5 +1,3 @@
-#include "portability.h"
-
 /////////////////////////////////////////////////////////////////
 // NamedPipe class
 //
@@ -26,10 +24,13 @@
 
 #ifdef ENABLE_NAMED_PIPES
 
-#include <stdio.h>
-#include "sml_Utils.h"
 #include "sock_NamedPipe.h"
 
+#include <stdio.h>
+#include "sml_Utils.h"
+
+
+#include "portability.h"
 #include <cassert>
 
 #ifdef PIPE_NON_BLOCKING

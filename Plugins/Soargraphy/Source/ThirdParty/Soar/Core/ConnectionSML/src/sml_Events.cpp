@@ -1,5 +1,3 @@
-#include "portability.h"
-
 /////////////////////////////////////////////////////////////////
 // Map event ids to and from strings
 //
@@ -11,6 +9,7 @@
 #include "sml_Events.h"
 #include <cassert>
 
+#include "portability.h"
 using namespace sml ;
 
 /*************************************************************

@@ -1,5 +1,3 @@
-#include "portability.h"
-
 /////////////////////////////////////////////////////////////////
 // TagFilter class
 //
@@ -12,6 +10,8 @@
 
 #include "sml_TagFilter.h"
 #include "sml_Names.h"
+
+#include "portability.h"
 
 using namespace sml ;
 

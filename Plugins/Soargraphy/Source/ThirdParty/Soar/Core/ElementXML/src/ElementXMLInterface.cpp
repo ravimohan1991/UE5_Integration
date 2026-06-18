@@ -1,5 +1,3 @@
-#include "portability.h"
-
 /////////////////////////////////////////////////////////////////
 // ElementXMLInterface file.
 //
@@ -24,6 +22,8 @@
 #include "ElementXMLImpl.h"
 #include "ParseXMLFile.h"
 #include "ParseXMLString.h"
+
+#include "portability.h"
 
 #include <string>
 #include <cstdio>

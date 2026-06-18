@@ -1,5 +1,3 @@
-#include "portability.h"
-
 /////////////////////////////////////////////////////////////////
 // ListenerNamedPipe class
 //
@@ -18,6 +16,8 @@
 
 #include "sock_ListenerNamedPipe.h"
 #include "sml_Utils.h"
+
+#include "portability.h"
 
 #include <iostream>
 #include <sstream>
