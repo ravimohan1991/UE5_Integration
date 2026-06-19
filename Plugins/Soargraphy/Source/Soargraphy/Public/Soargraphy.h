@@ -12,6 +12,16 @@
 #include "CoreMinimal.h"
 #include "Modules/ModuleManager.h"
 
+/**
+ * @brief Declaring our own logging category
+ *
+ * @param CategoryName								category to declare
+ * @param DefaultVerbosity							default run time verbosity
+ * 
+ * @param CompileTimeVerbosity						maximum verbosity to compile into the code
+ */
+DECLARE_LOG_CATEGORY_EXTERN(LogSoargraphy, Log, All);
+
 class FSoargraphyModule : public IModuleInterface
 {
 public:
