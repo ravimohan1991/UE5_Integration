@@ -65,10 +65,14 @@ public class ThirdParty : ModuleRules
 
             // Library path
             //string LibPath = Path.Combine(ModuleDirectory, "Soar/lib/Linux");
-           // PublicAdditionalLibraries.Add(Path.Combine(LibPath, "libSoar.so"));  // [web:26][web:33]
+            // PublicAdditionalLibraries.Add(Path.Combine(LibPath, "libSoar.so"));  // [web:26][web:33]
 
             // For .so that needs runtime loading:
-           // RuntimeDependencies.Add(Path.Combine(LibPath, "libSoar.so"));
+            // RuntimeDependencies.Add(Path.Combine(LibPath, "libSoar.so"));
+        }
+        else if (Target.Platform == UnrealTargetPlatform.Win64)
+        { 
+            PublicDefinitions.Add("_USRDLL");
         }
     }
 }

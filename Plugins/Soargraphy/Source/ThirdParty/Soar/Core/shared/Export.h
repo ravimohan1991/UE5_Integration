@@ -12,7 +12,7 @@
 #define EXPORT_H
 
 /* Adapted from SWIG output code, because they know what they are doing */
-#if (__GNUC__ >= 4) || (__GNUC__ == 3 && __GNUC_MINOR__ >= 4)
+#if defined(__GNUC__) && ((__GNUC__ >= 4) || (__GNUC__ == 3 && __GNUC_MINOR__ >= 4))
 #  ifndef GCC_HASCLASSVISIBILITY
 #    define GCC_HASCLASSVISIBILITY
 #  endif

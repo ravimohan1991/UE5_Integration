@@ -111,22 +111,26 @@ static inline long atomic_dec( volatile long *v )
 
 static inline int set_working_directory_to_executable_path()
 {
-      char application_path[MAX_PATH];
+      wchar_t application_path[MAX_PATH];
       unsigned int length = GetModuleFileName(0, application_path, MAX_PATH);
 
-      for(; length != 0; --length) {
-            if(application_path[length] == '\\') {
+      for(; length != 0; --length) 
+      {
+            if(application_path[length] == '\\') 
+            {
                   application_path[length] = '\0';
                   break;
             }
       }
 
-      if(!length) {
+      if(!length)
+      {
            fprintf(stderr, "Detecting working directory failed.\n");
            return -1;
       }
 
       length = SetCurrentDirectory(application_path);
+      
       if(!length)
             fprintf(stderr, "Failed to set working directory.\n");
 
@@ -160,7 +164,7 @@ inline bool stdout_supports_ansi_colors()
     DWORD mode = 0;
     if (!GetConsoleMode(h, &mode))
     {
-        fprintf(stderr, "Error determining console mode: %d. Assuming ansi colors not supported.\n", GetLastError());
+        fprintf(stderr, "Error determining console mode: %d. Assuming ansi colors not supported.\n", int(GetLastError()));
         return false;
     }
     return mode & ENABLE_VIRTUAL_TERMINAL_PROCESSING;

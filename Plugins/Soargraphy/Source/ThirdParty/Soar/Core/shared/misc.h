@@ -20,6 +20,10 @@
 #include <sstream>
 #include <string>
 #include <cstdio>
+#include <cstdlib>
+#include <cerrno>
+#include <limits>
+#include <type_traits>
 
 inline const char* get_directory_separator()
 {
@@ -87,112 +91,265 @@ template <class T> inline T cast_and_possibly_truncate(void* ptr)
     return static_cast<T>(reinterpret_cast<uintptr_t>(ptr));
 }
 
+// Safer snprintf wrapper to avoid MSVC deprecation warning for _snprintf.
+// Uses secure CRT on MSVC and falls back to standard vsnprintf elsewhere.
+inline int safe_vsnprintf(char* buf, size_t bufsize, const char* fmt, va_list args)
+{
+    if (!buf || bufsize == 0)
+    {
+        return -1;
+    }
+
+#ifdef _MSC_VER
+    // Use the secure CRT variant which avoids C4996 deprecation warnings.
+    // _vsnprintf_s writes at most bufsize-1 characters and always null-terminates when _TRUNCATE is used.
+    int ret = _vsnprintf_s(buf, bufsize, _TRUNCATE, fmt, args);
+    if (ret < 0)
+    {
+        // Ensure termination on error/truncation
+        buf[bufsize - 1] = '\0';
+    }
+    return ret;
+#else
+    int ret = vsnprintf(buf, bufsize, fmt, args);
+    if (ret < 0)
+    {
+        // Ensure termination on platforms where vsnprintf may return negative on error.
+        buf[bufsize - 1] = '\0';
+    }
+    else if (static_cast<size_t>(ret) >= bufsize)
+    {
+        // Ensure null-termination if truncated
+        buf[bufsize - 1] = '\0';
+    }
+    return ret;
+#endif
+}
+
+inline int safe_snprintf(char* buf, size_t bufsize, const char* fmt, ...)
+{
+    va_list args;
+    va_start(args, fmt);
+    int ret = safe_vsnprintf(buf, bufsize, fmt, args);
+    va_end(args);
+    return ret;
+}
+
 // These functions have proven to be much faster than the c++ style ones above.
 // TO
 const size_t TO_C_STRING_BUFSIZE = 24; // uint64: 18446744073709551615 plus a few extra
+
+//	Formats the 8 - bit signed integer v into the provided C buffer buf using safe_snprintf and the PRId8 
+//  printf macro (so the correct platform - specific format is used).
 inline const char* const to_c_string(const int8_t& v, char* buf)
 {
-    SNPRINTF(buf, TO_C_STRING_BUFSIZE, "%" SCNi8, v);
+    safe_snprintf(buf, TO_C_STRING_BUFSIZE, "%" PRId8, v);
     return buf;
 }
 inline const char* const to_c_string(const uint8_t& v, char* buf)
 {
-    SNPRINTF(buf, TO_C_STRING_BUFSIZE, "%" SCNu8, v);
+    safe_snprintf(buf, TO_C_STRING_BUFSIZE, "%" SCNu8, v);
     return buf;
 }
 inline const char* const to_c_string(const int16_t& v, char* buf)
 {
-    SNPRINTF(buf, TO_C_STRING_BUFSIZE, "%" SCNd16, v);
+    safe_snprintf(buf, TO_C_STRING_BUFSIZE, "%" SCNd16, v);
     return buf;
 }
 inline const char* const to_c_string(const uint16_t& v, char* buf)
 {
-    SNPRINTF(buf, TO_C_STRING_BUFSIZE, "%" SCNu16, v);
+    safe_snprintf(buf, TO_C_STRING_BUFSIZE, "%" SCNu16, v);
     return buf;
 }
 inline const char* const to_c_string(const int32_t& v, char* buf)
 {
-    SNPRINTF(buf, TO_C_STRING_BUFSIZE, "%" SCNd32, v);
+    safe_snprintf(buf, TO_C_STRING_BUFSIZE, "%" SCNd32, v);
     return buf;
 }
 inline const char* const to_c_string(const uint32_t& v, char* buf)
 {
-    SNPRINTF(buf, TO_C_STRING_BUFSIZE, "%" SCNu32, v);
+    safe_snprintf(buf, TO_C_STRING_BUFSIZE, "%" SCNu32, v);
     return buf;
 }
 inline const char* const to_c_string(const int64_t& v, char* buf)
 {
-    SNPRINTF(buf, TO_C_STRING_BUFSIZE, "%" SCNd64, v);
+    safe_snprintf(buf, TO_C_STRING_BUFSIZE, "%" SCNd64, v);
     return buf;
 }
 inline const char* const to_c_string(const uint64_t& v, char* buf)
 {
-    SNPRINTF(buf, TO_C_STRING_BUFSIZE, "%" SCNu64, v);
+    safe_snprintf(buf, TO_C_STRING_BUFSIZE, "%" SCNu64, v);
     return buf;
 }
 inline const char* const to_c_string(const float& v, char* buf)
 {
-    SNPRINTF(buf, TO_C_STRING_BUFSIZE, "%f", v);
+    safe_snprintf(buf, TO_C_STRING_BUFSIZE, "%f", v);
     return buf;
 }
 inline const char* const to_c_string(const double& v, char* buf)
 {
-    SNPRINTF(buf, TO_C_STRING_BUFSIZE, "%lf", v);
+    safe_snprintf(buf, TO_C_STRING_BUFSIZE, "%lf", v);
     return buf;
 }
 inline const char* const to_c_string(const long double& v, char* buf)
 {
-    SNPRINTF(buf, TO_C_STRING_BUFSIZE, "%Lf", v);
+    safe_snprintf(buf, TO_C_STRING_BUFSIZE, "%Lf", v);
     return buf;
+}
+
+// Safer version of sscanf templates
+
+/**
+ * Parses an integral value of type T from a C string. Returns true on success, false on failure.
+ * 
+ * std::enable_if is used to ensure that this function is only instantiated for signed integral types.
+ * i.e std::enable_if<Cond, R>::Type = R if Cond is true, otherwise it is not defined. This allows us to 
+ * create a function that only works for signed integral types. Likewise for subsequent templates.
+ */
+template <typename T>
+inline typename std::enable_if<std::is_integral<T>::value&& std::is_signed<T>::value, bool>::type
+parse_from_c_string(const char* str, T& out)
+{
+    if (!str) return false;
+
+    errno = 0;
+
+    char* end = nullptr;
+    
+    long long tmp = std::strtoll(str, &end, 10);
+    
+    if (end == str || errno == ERANGE) return false;
+    
+	// Check if the parsed value fits within the range of T
+    if (tmp < static_cast<long long>(std::numeric_limits<T>::min()) ||
+        tmp > static_cast<long long>(std::numeric_limits<T>::max()))
+    {
+        return false;
+    }
+    
+    out = static_cast<T>(tmp);
+    
+    return true;
+}
+
+/**
+ * Parses an integral value of type T from a C string. Returns true on success, false on failure.
+ * T could be any unsigned integral type (e.g., uint8_t, uint16_t, uint32_t, uint64_t).
+ */
+template <typename T>
+inline typename std::enable_if<std::is_integral<T>::value && std::is_unsigned<T>::value, bool>::type
+parse_from_c_string(const char* str, T& out)
+{
+    if (!str) return false;
+
+	// Setting errno to 0 before calling strtoull to detect overflow/underflow
+    errno = 0;
+
+    char* end = nullptr;
+
+    unsigned long long tmp = std::strtoull(str, &end, 10);
+    
+	// Check if the conversion was successful and if the value is within the range of T
+    if (end == str || errno == ERANGE) return false;
+    
+	// Check if the parsed value fits within the range of T
+    if (tmp > static_cast<unsigned long long>(std::numeric_limits<T>::max()))
+    {
+        return false;
+    }
+
+	// Static cast instead of C-style cast for better safety and clarity
+    // Becasue dynamic cast is not possible for primitive types.
+    out = static_cast<T>(tmp);
+    
+    return true;
+}
+
+/**
+ * Parses a floating-point value of type T from a C string. Returns true on success, false on failure.
+ */
+template <typename T>
+inline typename std::enable_if<std::is_floating_point<T>::value, bool>::type
+parse_from_c_string(const char* str, T& out)
+{
+    if (!str) return false;
+    errno = 0;
+    char* end = nullptr;
+
+    if (std::is_same<T, float>::value)
+    {
+        float tmp = std::strtof(str, &end);
+        if (end == str || errno == ERANGE) return false;
+        
+        out = static_cast<T>(tmp);
+
+        return true;
+    }
+
+    if (std::is_same<T, double>::value)
+    {
+        double tmp = std::strtod(str, &end);
+        if (end == str || errno == ERANGE) return false;
+
+        out = static_cast<T>(tmp);
+        
+        return true;
+    }
+    
+    // long double
+    long double tmp = std::strtold(str, &end);
+    if (end == str || errno == ERANGE) return false;
+
+    out = static_cast<T>(tmp);
+    
+    return true;
 }
 
 // FROM
 inline bool from_c_string(int8_t& v, const char* const str)
 {
-    return sscanf(str, "%" SCNd8, &v) == 1;
+    return parse_from_c_string(str, v);
 }
 inline bool from_c_string(uint8_t& v, const char* const str)
 {
-    return sscanf(str, "%" SCNu8, &v) == 1;
+    return parse_from_c_string(str, v);
 }
 inline bool from_c_string(int16_t& v, const char* const str)
 {
-    return sscanf(str, "%" SCNd16, &v) == 1;
+    return parse_from_c_string(str, v);
 }
 inline bool from_c_string(uint16_t& v, const char* const str)
 {
-    return sscanf(str, "%" SCNu16, &v) == 1;
+    return parse_from_c_string(str, v);
 }
 inline bool from_c_string(int32_t& v, const char* const str)
 {
-    return sscanf(str, "%" SCNd32, &v) == 1;
+    return parse_from_c_string(str, v);
 }
 inline bool from_c_string(uint32_t& v, const char* const str)
 {
-    return sscanf(str, "%" SCNu32, &v) == 1;
+    return parse_from_c_string(str, v);
 }
 inline bool from_c_string(int64_t& v, const char* const str)
 {
-    bool ret = sscanf(str, "%" SCNd64, &v) == 1;
-    return ret;
+    return parse_from_c_string(str, v);
 }
 inline bool from_c_string(uint64_t& v, const char* const str)
 {
-    bool ret = sscanf(str, "%" SCNu64, &v) == 1;
-    return ret;
+    return parse_from_c_string(str, v);
 }
 inline bool from_c_string(float& v, const char* const str)
 {
-    return sscanf(str, "%f", &v) == 1;
+    return parse_from_c_string(str, v);
 }
 inline bool from_c_string(double& v, const char* const str)
 {
-    return sscanf(str, "%lf", &v) == 1;
+    return parse_from_c_string(str, v);
 }
 
 inline bool from_c_string(long double& v, const char* const str)
 {
-    return sscanf(str, "%Lf", &v) == 1;
+    return parse_from_c_string(str, v);
 }
 
 /** Casting between pointer-to-function and pointer-to-object is hard to do... legally
