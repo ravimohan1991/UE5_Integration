@@ -60,7 +60,7 @@ void sml::ReportSystemErrorMessage()
         0,
         error,
         0,
-        (char*) &message,
+        (wchar_t*) &message,
         0, 0);
 #else
     message = strerror(error);
@@ -122,6 +122,17 @@ int CTDebugEnterMethod::GetCurrentNestLevel()
 
 #endif  // DEBUG_CALLS
 
+static inline int portable_vsnprintf(char* buffer, size_t size, const char* fmt, va_list args)
+{
+#if defined(_MSC_VER)
+    // use secure truncating variant on MSVC
+    // _vsnprintf_s signature: (char *str, size_t sizeOfBuffer, size_t count, const char *format, va_list argptr)
+    return _vsnprintf_s(buffer, size, _TRUNCATE, fmt, args);
+#else
+    return vsnprintf(buffer, size, fmt, args);
+#endif
+}
+
 // Note: This may be Windows specific way of handling
 // variable args--there are other methods.
 void sml::PrintDebugFormat(char const* pFormat, ...)
@@ -131,12 +142,12 @@ void sml::PrintDebugFormat(char const* pFormat, ...)
 
     char szBuffer[10000];
 
-    int nBuf = VSNPRINTF(szBuffer, sizeof(szBuffer), pFormat, args);
+    int nBuf = portable_vsnprintf(szBuffer, sizeof(szBuffer), pFormat, args);
 
     // was there an error? was the expanded string too long?
     if (nBuf < 0)
     {
-        strcpy(szBuffer, "** Debug message too long for PrintDebugFormat's buffer **") ;
+		snprintf(szBuffer, sizeof(szBuffer), "%s", "** Debug message too long for PrintDebugFormat's buffer **");
     }
 
 #ifdef DEBUG_CALLS
@@ -196,10 +207,10 @@ void sml::PrintDebugMethod(char const* pMethodName, char const* pStr)
     */
 
     // We add a newline which may be O/S specific.
-    OutputDebugString(pMethodName) ;
-    OutputDebugString(" ") ;
-    OutputDebugString(pStr) ;
-    OutputDebugString("\n") ;
+    OutputDebugStringA(pMethodName) ;
+    OutputDebugStringA(" ") ;
+    OutputDebugStringA(pStr) ;
+    OutputDebugStringA("\n") ;
 }
 
 void PrintDebugSimple(char const* pStr)

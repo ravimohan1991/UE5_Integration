@@ -56,7 +56,7 @@ bool ClientNamedPipe::ConnectToServer(char const* pPipeName)
     
     DWORD usernamesize = UNLEN + 1;
     char username[UNLEN + 1];
-    GetUserName(username, &usernamesize);
+    GetUserNameA(username, &usernamesize);
     
     // Get the address
     std::string name = "\\\\.\\pipe\\";
@@ -77,7 +77,7 @@ bool ClientNamedPipe::ConnectToServer(char const* pPipeName)
     {
 #pragma warning( pop )
         // Create the pipe
-        hPipe = CreateFile(
+        hPipe = CreateFileA(
                     name.c_str(),   // pipe name
                     GENERIC_READ |  // read and write access
                     GENERIC_WRITE,
@@ -100,7 +100,7 @@ bool ClientNamedPipe::ConnectToServer(char const* pPipeName)
         }
         
         // All pipe instances are busy, so wait for 20 seconds.
-        if (!WaitNamedPipe(name.c_str(), 20000))
+        if (!WaitNamedPipeA(name.c_str(), 20000))
         {
             sml::PrintDebug("Error: Error opening client connection pipe") ;
             sml::ReportSystemErrorMessage();
