@@ -2524,7 +2524,7 @@ std::string Kernel::LoadExternalLibrary(const char* pLibraryCommand)
     {
 #ifdef _WIN32
         // Now load the library itself.
-        hLibrary = LoadLibrary(directory.c_str()) ;
+        hLibrary = LoadLibraryA(directory.c_str()) ;
 
 #else
         hLibrary = dlopen(directory.c_str(), RTLD_LAZY);
