@@ -60,7 +60,7 @@ bool ListenerNamedPipe::CreateListener(int port)
     
     DWORD usernamesize = UNLEN + 1;
     char username[UNLEN + 1];
-    GetUserName(username, &usernamesize);
+    GetUserNameA(username, &usernamesize);
     std::stringstream pipeName;
     pipeName << "\\\\.\\pipe\\" << username << "-" << port;
     
@@ -78,7 +78,7 @@ bool ListenerNamedPipe::CreateListener(int port)
     }*/
     
     // Create the listener socket
-    HANDLE hListener = CreateNamedPipe(
+    HANDLE hListener = CreateNamedPipeA(
                            pipeName.str().c_str(),           // pipe name
                            PIPE_ACCESS_DUPLEX,       // read/write access
                            PIPE_TYPE_MESSAGE |       // message type pipe

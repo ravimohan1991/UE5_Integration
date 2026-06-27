@@ -13,6 +13,16 @@
 #include "sml_Utils.h"
 #include "sock_OSspecific.h"
 
+#ifdef _MSC_VER
+#  include <winsock2.h>
+#  include <Ws2tcpip.h> // for InetPtonA
+#else
+#  include <netdb.h>
+#  include <sys/types.h>
+#  include <sys/socket.h>
+#  include <arpa/inet.h>
+#endif
+
 #include <sstream>
 #include <stdio.h>
 #include <cassert>
@@ -54,24 +64,52 @@ static in_addr* ConvertAddress(char const* pNetAddress)
     assert(pNetAddress) ;
 
     // Try it as aaa.bbb.ccc.ddd first
-    address.s_addr = inet_addr(pNetAddress) ;
+#ifdef _MSC_VER
+    IN_ADDR tmpAddr;
+    if (InetPtonA(AF_INET, pNetAddress, &tmpAddr) == 1)
+    {
+		address = tmpAddr;
+		return &address;
+    }
+#else
+	address.s_addr = inet_addr(pNetAddress);
 
     // Check if this method worked
     if (address.s_addr != INADDR_NONE)
     {
-        return &address ;
+        return &address;
     }
+#endif
 
-    // Then try it as a hostname
-    hostent* pHost = gethostbyname(pNetAddress) ;
+    // Fallback: resolve hostname with getaddrinfo (handles both IPv4/IPv6)
+    struct addrinfo hints;
+    struct addrinfo* result = nullptr;
 
-    // Check if this method worked
-    if (pHost != NULL)
+    memset(&hints, 0, sizeof(hints));
+    hints.ai_family = AF_UNSPEC;      // allow IPv4 or IPv6
+    hints.ai_socktype = SOCK_STREAM;  // TCP stream
+
+    int rc = getaddrinfo(pNetAddress, nullptr, &hints, &result);
+    if (rc != 0 || result == nullptr)
     {
-        return (in_addr*) *pHost->h_addr_list ;
+        return nullptr;
     }
 
-    return NULL ;
+    // Prefer the first IPv4 address if available
+    for (struct addrinfo* ai = result; ai != nullptr; ai = ai->ai_next)
+    {
+        if (ai->ai_family == AF_INET && ai->ai_addr)
+        {
+            struct sockaddr_in* sin = reinterpret_cast<struct sockaddr_in*>(ai->ai_addr);
+            address = sin->sin_addr;
+            freeaddrinfo(result);
+            return &address;
+        }
+    }
+
+    // No IPv4 found; optionally handle IPv6 mapping -> IPv4 if needed.
+    freeaddrinfo(result);
+    return NULL;
 }
 
 const char* kLocalHost = "127.0.0.1" ; // Special IP address meaning "this machine"

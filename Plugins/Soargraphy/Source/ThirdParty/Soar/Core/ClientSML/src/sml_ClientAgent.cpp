@@ -134,6 +134,30 @@ std::string get_soarlib_path()
     return h;
 }
 
+const char* get_safe_env(const char* var)
+{
+    static std::string soarHomeStr;
+
+#ifdef _MSC_VER
+    char* soarHomeBuf = nullptr;
+    size_t soarHomeBuffSize = 0;
+    if (_dupenv_s(&soarHomeBuf, &soarHomeBuffSize, var) == 0 && soarHomeBuf != nullptr)
+    {
+        soarHomeStr = soarHomeBuf;
+        free(soarHomeBuf);
+    }
+#else
+    char* soarHomeC = getenv(var);
+    if (soarHomeC)
+    {
+        soarHomeStr = soarHomeC;
+    }
+#endif
+    const char* soarHome = soarHomeStr.empty() ? nullptr : soarHomeStr.c_str();
+
+	return soarHome;
+}
+
 Agent::Agent(Kernel* pKernel, char const* pName)
 {
     m_Kernel = pKernel ;
@@ -1527,23 +1551,7 @@ bool Agent::SpawnDebugger(int port, const char* jarpath)
         p = DEBUGGER_NAME;
     }
 
-    std::string soarHomeStr;
-#ifdef _MSC_VER
-	char* soarHomeBuf = nullptr;
-    size_t soarHomeBuffSize = 0;
-    if (_dupenv_s(&soarHomeBuf, &soarHomeBuffSize, "SOAR_HOME") == 0 && soarHomeBuf != nullptr)
-    {
-        soarHomeStr = soarHomeBuf;
-		free(soarHomeBuf);
-    }
-#else
-    char* soarHomeC = getenv("SOAR_HOME");
-    if (soarHomeC)
-    {
-		soarHomeStr = soarHomeC;
-    }
-#endif
-	const char* soarHome = soarHomeStr.empty() ? nullptr : soarHomeStr.c_str();
+	const char* soarHome = get_safe_env("SOAR_HOME");
 
     // Check SOAR_HOME
     if (p.length() == 0)
@@ -1667,12 +1675,12 @@ bool Agent::SpawnDebugger(int port, const char* jarpath)
     SetHandleInformation(pipes[ParentWrite], HANDLE_FLAG_INHERIT, 0);
 
     ZeroMemory(&m_pDPI->debuggerStartupInfo, sizeof(m_pDPI->debuggerStartupInfo));
-    m_pDPI->debuggerStartupInfo.cb = sizeof(m_pDPI->debuggerStartupInfo);
-    m_pDPI->debuggerStartupInfo.wShowWindow = SW_SHOW;
-    m_pDPI->debuggerStartupInfo.dwFlags = STARTF_USESHOWWINDOW;
-    m_pDPI->debuggerStartupInfo.hStdOutput = pipes[ChildWrite];
-    m_pDPI->debuggerStartupInfo.hStdError = pipes[ChildWrite];
-    m_pDPI->debuggerStartupInfo.hStdInput = pipes[ChildRead];
+    m_pDPI->debuggerStartupInfo->cb = sizeof(m_pDPI->debuggerStartupInfo);
+    m_pDPI->debuggerStartupInfo->wShowWindow = SW_SHOW;
+    m_pDPI->debuggerStartupInfo->dwFlags = STARTF_USESHOWWINDOW;
+    m_pDPI->debuggerStartupInfo->hStdOutput = pipes[ChildWrite];
+    m_pDPI->debuggerStartupInfo->hStdError = pipes[ChildWrite];
+    m_pDPI->debuggerStartupInfo->hStdInput = pipes[ChildRead];
 
     ZeroMemory(&m_pDPI->debuggerProcessInformation, sizeof(m_pDPI->debuggerProcessInformation));
 
@@ -1680,7 +1688,7 @@ bool Agent::SpawnDebugger(int port, const char* jarpath)
     std::stringstream commandLine;
 
     std::string path = "";
-    char* pathC = getenv("PATH");
+	const char* pathC = get_safe_env("PATH");
     char buffer[4096 + 1];
 
     GetCurrentDirectoryA(4096, buffer);
