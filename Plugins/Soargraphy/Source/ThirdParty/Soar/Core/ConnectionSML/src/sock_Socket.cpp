@@ -34,6 +34,13 @@
 #include "sml_Utils.h"  // For sml::Sleep
 #endif
 
+#if defined _MSC_VER
+#include <winsock2.h>
+#include <ws2tcpip.h>
+#else
+#include <arpa/inet.h>
+#endif
+
 using namespace sock ;
 
 //////////////////////////////////////////////////////////////////////
@@ -83,7 +90,7 @@ Socket::~Socket()
 // Description    : Get the IP address as a string "aaaa.bbbb.cccc.dddd"
 //
 /////////////////////////////////////////////////////////////////////
-char* sock::GetLocalIPAddress()
+/*char* sock::GetLocalIPAddress()
 {
     // Look up the local host's IP address
     uint32_t hostID = GetLocalIP() ;
@@ -95,6 +102,23 @@ char* sock::GetLocalIPAddress()
     char* pHost = inet_ntoa(addr) ;
 
     return pHost ;
+}*/
+std::string sock::GetLocalIPAddress()
+{
+    uint32_t hostID = GetLocalIP();
+
+    in_addr addr{};
+    addr.s_addr = hostID;
+
+    char buf[INET_ADDRSTRLEN] = {};
+
+#ifdef _MSC_VER
+    InetNtopA(AF_INET, &addr, buf, sizeof(buf));
+#else
+    inet_ntop(AF_INET, &addr, buf, sizeof(buf));
+#endif
+
+    return std::string(buf);
 }
 
 /////////////////////////////////////////////////////////////////////
@@ -111,7 +135,6 @@ char* sock::GetLocalIPAddress()
 uint32_t sock::GetLocalIP()
 {
     char szLclHost[1024];
-    HOSTENT* lpstHostent;
     SOCKADDR_IN stLclAddr;
     SOCKADDR_IN stRmtAddr;
     int nAddrSize = sizeof(SOCKADDR);
@@ -126,10 +149,18 @@ uint32_t sock::GetLocalIP()
     if (nRet != SOCKET_ERROR)
     {
         /* Resolve hostname for local address */
-        lpstHostent = gethostbyname(szLclHost);
-        if (lpstHostent)
+        addrinfo hints = {};
+        addrinfo* result = nullptr;
+
+        hints.ai_family = AF_INET;      // IPv4
+        hints.ai_socktype = SOCK_STREAM;
+
+        if (getaddrinfo(szLclHost, nullptr, &hints, &result) == 0)
         {
-            stLclAddr.sin_addr.s_addr = *((u_int*)(lpstHostent->h_addr));
+            sockaddr_in* addr = (sockaddr_in*)result->ai_addr;
+            stLclAddr.sin_addr = addr->sin_addr;
+
+            freeaddrinfo(result);
         }
     }
 
@@ -143,7 +174,19 @@ uint32_t sock::GetLocalIP()
             /* Connect to arbitrary port and address (NOT loopback) */
             stRmtAddr.sin_family = AF_INET;
             stRmtAddr.sin_port   = htons(IPPORT_ECHO);
-            stRmtAddr.sin_addr.s_addr = inet_addr("128.127.50.1");
+
+#ifdef _MSC_VER
+            if (InetPtonA(AF_INET, "128.127.50.1", &stRmtAddr.sin_addr) != 1)
+            {
+				// Handle error if needed
+            }
+#else
+            if (inet_pton(AF_INET, "128.127.50.1", &stRmtAddr.sin_addr) != 1)
+            {
+				// Handle error if needed
+            }
+#endif
+
             nRet = connect(hSock, (SOCKADDR*)&stRmtAddr,
                            sizeof(SOCKADDR));
             if (nRet != SOCKET_ERROR)

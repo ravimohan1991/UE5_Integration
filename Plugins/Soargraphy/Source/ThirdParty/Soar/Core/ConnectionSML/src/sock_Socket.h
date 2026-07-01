@@ -42,7 +42,10 @@ namespace sock
 
 // Useful utility functions.
     uint32_t GetLocalIP() ;
-    char* GetLocalIPAddress() ;
+    //char* GetLocalIPAddress() ;
+	
+    std::string GetLocalIPAddress();
+
 #ifdef ENABLE_LOCAL_SOCKETS
     std::string GetLocalSocketDir();
 #endif

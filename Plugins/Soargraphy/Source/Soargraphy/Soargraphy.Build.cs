@@ -10,7 +10,7 @@ public class Soargraphy : ModuleRules
 		
 		PublicIncludePaths.AddRange(
 			new string[] {
-				ModuleDirectory, "../../ThirdParty/Soar/Core/ClientSML/src",
+				/*ModuleDirectory, "../../ThirdParty/Soar/Core/ClientSML/src",*/
 				// ... add public include paths required here ...
 			}
 			);
