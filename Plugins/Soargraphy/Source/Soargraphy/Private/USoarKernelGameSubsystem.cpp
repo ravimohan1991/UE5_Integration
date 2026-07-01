@@ -11,6 +11,15 @@ void UUSoarKernelGameSubsystem::Initialize(FSubsystemCollectionBase& Collection)
 
     // Initialize the Soar kernel
     SoarKernel.reset(sml::Kernel::CreateKernelInNewThread());
+
+    if(SoarKernel)
+    {
+        UE_LOG(LogSoargraphy, Log, TEXT("Soar Kernel initialized successfully."));
+    }
+    else
+    {
+        UE_LOG(LogSoargraphy, Error, TEXT("Failed to initialize Soar Kernel."));
+    }
 }
 
 void UUSoarKernelGameSubsystem::Deinitialize()
