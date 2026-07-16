@@ -2571,7 +2571,7 @@ std::string Kernel::LoadExternalLibrary(const char* pLibraryCommand)
 
             // copy
             charArgv[index] = new char[vectorArgv[index].size() + 1];
-            strncpy(charArgv[index], vectorArgv[index].data(), vectorArgv[index].size());
+            memcpy(charArgv[index], vectorArgv[index].data(), vectorArgv[index].size());
 
             // verify it is null-terminated
             charArgv[index][ vectorArgv[index].size() ] = 0;

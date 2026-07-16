@@ -401,7 +401,8 @@ namespace soar_module
             virtual char* get_cstring()
             {
                 char* return_val = new char[ value->length() + 1 ];
-                strcpy(return_val, value->c_str());
+                memcpy(return_val, value->c_str(), value->length());
+
                 return_val[ value->length() ] = '\0';
 
                 return return_val;
@@ -583,7 +584,8 @@ namespace soar_module
             virtual char* get_cstring()
             {
                 char* return_val = new char[ value->length() + 1 ];
-                strcpy(return_val, value->c_str());
+                memcpy(return_val, value->c_str(), value->length());
+
                 return_val[ value->length() ] = '\0';
 
                 return return_val;

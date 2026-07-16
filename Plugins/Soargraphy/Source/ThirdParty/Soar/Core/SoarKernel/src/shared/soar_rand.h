@@ -343,7 +343,8 @@ inline void MTRand::seed()
     // Seed the generator with an array from /dev/urandom if available
     // Otherwise use a hash of time() and clock() values
 
-    // First try getting an array from /dev/urandom
+#ifndef _MSC_VER
+    // First try getting an array from /dev/urandom (Linux only)
     FILE* urandom = fopen("/dev/urandom", "rb");
     if (urandom)
     {
@@ -351,11 +352,13 @@ inline void MTRand::seed()
         uint32_t* s = bigSeed;
         int i = N;
         bool success = true;
+
+		// Read N uint32's from /dev/urandom all of which are different from each other (to avoid a weak seed)
         while (success && i--)
-            //success = fread( s++, sizeof(uint32_t), 1, urandom );
         {
-            success = (fread(s++, sizeof(uint32_t), 1, urandom) == 0);    // RPM 1/06 modified to eliminate Visual Studio warning C4800
+            success = bool(fread(s++, sizeof(uint32_t), 1, urandom));
         }
+
         fclose(urandom);
         if (success)
         {
@@ -363,8 +366,9 @@ inline void MTRand::seed()
             return;
         }
     }
+#endif
 
-    // Was not successful, so use time() and clock() instead
+    // Was not successful or not windows, so use time() and clock() instead
     seed(hash(time(NULL), clock()));
 }
 

@@ -608,14 +608,23 @@ ElementXML_Handle soarxml_ParseXMLFromFile(char const* pFilename)
     {
         return NULL ;
     }
-    
-    FILE* pFile = fopen(pFilename, "rb") ;
-    
-    if (!pFile)
+
+#ifdef _MSC_VER
+	FILE* pFile = NULL;
+	errno_t err = fopen_s(&pFile, pFilename, "rb");
+    if (err != 0 || !pFile)
     {
         s_LastParseErrorMessage = "File " + std::string(pFilename) + " could not be opened" ;
-        return NULL ;
+		return NULL;
     }
+#else
+	FILE* pFile = fopen(pFilename, "rb");
+    if (!pFile)
+    {
+		s_LastParseErrorMessage = "File " + std::string(pFilename) + " could not be opened";
+        return NULL;
+    }
+#endif
     
     ParseXMLFile parser(pFile) ;
     ElementXMLImpl* pXML = parser.ParseElement() ;

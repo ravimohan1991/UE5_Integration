@@ -32,6 +32,8 @@
 #include "working_memory.h"
 #include "xml.h"
 
+#include <stdarg.h>
+
 #ifdef _DEBUG
 // Comment this in to debug init-soar and inputwme::update calls
 //#define DEBUG_UPDATE
@@ -1556,6 +1558,18 @@ bool AgentSML::CaptureInputWME(const CapturedAction& ca)
     return m_pCaptureFile->good();
 }
 
+static inline void portable_snprintf(char* buffer, size_t count, const char* format, ...)
+{
+    va_list ap;
+	va_start(ap, format);
+#ifdef _MSC_VER
+    _vsnprintf_s(buffer, count, _TRUNCATE, format, ap);
+#else
+	vsnprintf(buffer, count, format, ap);
+#endif // _MSC_VER
+	va_end(ap);
+}
+
 void AgentSML::ReplayInputWMEs()
 {
     /* These prints seem to be the only ones in the sml files.  Should they be using another mechanism? */
@@ -1581,7 +1595,7 @@ void AgentSML::ReplayInputWMEs()
         {
             // add-wme
             char timetagString[25];
-            SNPRINTF(timetagString, 25, "%" SCNd64, ca.clientTimeTag);
+            portable_snprintf(timetagString, 25, "%" SCNd64, ca.clientTimeTag);
 
             if (!AddInputWME(ca.Add()->id.c_str(), ca.Add()->attr.c_str(), ca.Add()->value.c_str(), ca.Add()->type, timetagString))
             {

@@ -48,7 +48,7 @@ typedef struct bool_quadruple_struct
         bool value;
         bool referent;
 
-        bool_quadruple_struct(uint64_t new_id = false, uint64_t new_attr = false, uint64_t new_value = false, uint64_t new_referent = false): id(new_id), attr(new_attr), value(new_value), referent(new_referent) {}
+        bool_quadruple_struct(bool new_id = false, bool new_attr = false, bool new_value = false, bool new_referent = false): id(new_id), attr(new_attr), value(new_value), referent(new_referent) {}
 } bool_quadruple;
 
 typedef struct rhs_quadruple_struct

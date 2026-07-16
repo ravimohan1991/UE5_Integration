@@ -32,9 +32,25 @@ typedef void* growable_string;
 
 // voigtjr 11/2005: platform specific code (strlen/malloc/etc) should be in .cpp files!
 // except it can't be (?) because of the inline restriction
+/**
+ * @brief saves a string to a new memory location
+ * 
+ * @note Caller should free the returned pointer when done with it.
+ */
 inline char* savestring(char* x)
 {
-    return strcpy(static_cast<char*>(malloc(strlen(x) + 1)), (x));
+	size_t len = strlen(x) + 1;
+	char* p = static_cast<char*>(malloc(len));
+
+    if (!p)
+    {
+        return nullptr;
+    }
+
+	memcpy(p, x, len);
+	p[len - 1] = '\0';
+
+    return p;
 }
 
 inline int& memsize_of_growable_string(growable_string gs)
