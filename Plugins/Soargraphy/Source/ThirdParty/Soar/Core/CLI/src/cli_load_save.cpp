@@ -17,7 +17,7 @@
 #include "sml_Names.h"
 #include "sml_KernelSML.h"
 #include "sml_StringOps.h"
-#include "sml_Utils.h"
+//#include "sml_Utils.h"
 
 #include "agent.h"
 #include "cmd_settings.h"
@@ -624,8 +624,8 @@ bool CommandLineInterface::DoReteNet(bool save, std::string filename)
             return SetError("Open file failed.");
 		}
 #else
-		errno_t err = fopen(filename.c_str(), "wb");
-        if (err != 0 || !file)
+		file = fopen(filename.c_str(), "wb");
+        if (!file)
         {
             return SetError("Open file failed.");
 		}
@@ -650,8 +650,8 @@ bool CommandLineInterface::DoReteNet(bool save, std::string filename)
             return SetError("Open file failed.");
 		}
 #else 
-		errno_t err = fopen(filename.c_str(), "rb");
-        if (err != 0 || !file)
+		file = fopen(filename.c_str(), "rb");
+        if (!file)
         {
             return SetError("Open file failed.");
 		}
@@ -785,8 +785,8 @@ bool CommandLineInterface::DoSource(std::string path, SourceBitset* pOptions)
         return SetError("Failed to open file for reading: " + path);
 	}
 #else
-    errno_t err = fopen(filename.c_str(), "rb");
-    if (err != 0 || !pFile)
+    pFile = fopen(filename.c_str(), "rb");
+    if (!pFile)
     {
         if (!folder.empty())
         {

@@ -171,7 +171,7 @@ namespace sml
 ///// End debug stuff
 ////////////////////////////
 
-const char* get_safe_env(const char* var)
+inline const char* get_safe_env(const char* var)
 {
     static std::string soarHomeStr;
 
