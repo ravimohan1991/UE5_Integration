@@ -197,7 +197,7 @@ bool CommandLineInterface::DoSave(std::vector<std::string>& argv, const std::str
                 if (!AddSaveSettingInt("chunk max-dupes", thisAgent->explanationBasedChunker->max_dupes)) return false;
                 if (!AddSaveSettingInt("soar max-elaborations", thisAgent->Decider->settings[DECIDER_MAX_ELABORATIONS])) return false;
                 if (!AddSaveSettingInt("soar max-goal-depth", thisAgent->Decider->settings[DECIDER_MAX_GOAL_DEPTH])) return false;
-                if (!AddSaveSettingOnOff(thisAgent->Decider->settings[DECIDER_WAIT_SNC], "soar wait-snc")) return false;
+                if (!AddSaveSettingOnOff(thisAgent->Decider->settings[DECIDER_WAIT_SNC] != 0, "soar wait-snc")) return false;
             }
 
             /* Save all rules except justifications */
@@ -615,12 +615,21 @@ bool CommandLineInterface::DoReteNet(bool save, std::string filename)
     agent* thisAgent = m_pAgentSML->GetSoarAgent();
     if (save)
     {
-        FILE* file = fopen(filename.c_str(), "wb");
+        FILE* file = NULL;
 
-        if (file == 0)
+#ifdef _MSC_VER
+		errno_t err = fopen_s(&file, filename.c_str(), "wb");
+        if (err != 0 || !file)
         {
             return SetError("Open file failed.");
-        }
+		}
+#else
+		errno_t err = fopen(filename.c_str(), "wb");
+        if (err != 0 || !file)
+        {
+            return SetError("Open file failed.");
+		}
+#endif
 
         if (! save_rete_net(thisAgent, file, true))
         {
@@ -629,16 +638,24 @@ bool CommandLineInterface::DoReteNet(bool save, std::string filename)
         }
 
         fclose(file);
-
     }
     else
     {
-        FILE* file = fopen(filename.c_str(), "rb");
+        FILE* file = NULL;
 
-        if (file == 0)
+#ifdef _MSC_VER
+        errno_t err = fopen_s(&file, filename.c_str(), "rb");
+        if (err != 0 || !file)
         {
             return SetError("Open file failed.");
-        }
+		}
+#else 
+		errno_t err = fopen(filename.c_str(), "rb");
+        if (err != 0 || !file)
+        {
+            return SetError("Open file failed.");
+		}
+#endif // _MSC_VER
 
         if (! load_rete_net(thisAgent, file))
         {
@@ -751,19 +768,33 @@ bool CommandLineInterface::DoSource(std::string path, SourceBitset* pOptions)
     }
 
     if (!folder.empty()) if (!DoPushD(folder))
-        {
-            return false;
-        }
+    {
+        return false;
+    }
 
-    FILE* pFile = fopen(filename.c_str() , "rb");
-    if (!pFile)
+    FILE* pFile = NULL;
+
+#ifdef _MSC_VER
+	errno_t err = fopen_s(&pFile, filename.c_str(), "rb");
+    if (err != 0 || !pFile)
     {
         if (!folder.empty())
         {
             DoPopD();
         }
         return SetError("Failed to open file for reading: " + path);
-    }
+	}
+#else
+    errno_t err = fopen(filename.c_str(), "rb");
+    if (err != 0 || !pFile)
+    {
+        if (!folder.empty())
+        {
+            DoPopD();
+        }
+        return SetError("Failed to open file for reading: " + path);
+	}
+#endif
 
     // obtain file size:
     fseek(pFile, 0, SEEK_END);

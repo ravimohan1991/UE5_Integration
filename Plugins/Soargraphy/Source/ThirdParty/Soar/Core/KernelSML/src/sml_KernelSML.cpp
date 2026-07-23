@@ -224,8 +224,11 @@ std::string KernelSML::SendClientMessage(AgentSML* pAgentSML, char const* pMessa
     bool ok = m_RhsListener.HandleEvent(smlEVENT_CLIENT_MESSAGE, pAgentSML, false, pMessageType, pMessage, sizeof(response), response) ;
     if (!ok)
     {
+		const char* NoResponse = "**NOBODY RESPONDED**";
+		size_t len = strlen(NoResponse);
+
         // There was listening to this message
-        strcpy(response, "**NOBODY RESPONDED**") ;
+        memcpy(response, NoResponse, len) ;
     }
 
     return response ;

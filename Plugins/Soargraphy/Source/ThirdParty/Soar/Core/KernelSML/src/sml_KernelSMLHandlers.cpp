@@ -102,7 +102,7 @@ void KernelSML::BuildCommandMap()
 bool fileExistsAndIsDir(const char* path)
 {
 #ifdef _WIN32
-    DWORD a = GetFileAttributes(path);
+    DWORD a = GetFileAttributesA(path);
     return a != INVALID_FILE_ATTRIBUTES && !(a & FILE_ATTRIBUTE_DIRECTORY);
 #else
     struct stat st;
@@ -207,7 +207,7 @@ bool KernelSML::HandleCreateAgent(AgentSML* pAgentSML, char const* pCommandName,
 std::string searchForFile(std::string& pFileName)
 {
     /* -- Load user settings for this agent.  Checks current working
-     *    directory, dll path and the SOAR_HOME environment variable -- */
+     *    directory, dll path, and the SOAR_HOME environment variable -- */
     std::string directory;
     char buf[1024];
     char* ret;
@@ -230,7 +230,7 @@ std::string searchForFile(std::string& pFileName)
     }
     if (!found_settings)
     {
-        ret = getenv("SOAR_HOME");
+        const char* ret = get_safe_env("SOAR_HOME");
         if (ret)
         {
             directory = ret;
@@ -261,7 +261,8 @@ std::string searchForFile(std::string& pFileName)
             found_settings = true;
         }
         ret = buf;
-        strcpy(ret, libPath.c_str());
+
+        memcpy(ret, libPath.c_str(), libPath.size());
     }
     if (!found_settings)
     {

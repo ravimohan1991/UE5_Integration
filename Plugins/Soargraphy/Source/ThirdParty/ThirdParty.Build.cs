@@ -62,17 +62,11 @@ public class ThirdParty : ModuleRules
         {
             // This is the UBT equivalent of passing "-ldl" to the Linux linker
             PublicSystemLibraries.Add("dl");
-
-            // Library path
-            //string LibPath = Path.Combine(ModuleDirectory, "Soar/lib/Linux");
-            // PublicAdditionalLibraries.Add(Path.Combine(LibPath, "libSoar.so"));  // [web:26][web:33]
-
-            // For .so that needs runtime loading:
-            // RuntimeDependencies.Add(Path.Combine(LibPath, "libSoar.so"));
         }
         else if (Target.Platform == UnrealTargetPlatform.Win64)
         { 
             PublicDefinitions.Add("_USRDLL");
+            PublicDefinitions.Add("NOMINMAX");
         }
     }
 }

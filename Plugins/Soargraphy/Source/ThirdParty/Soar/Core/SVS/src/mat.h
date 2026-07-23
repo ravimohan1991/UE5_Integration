@@ -104,7 +104,7 @@ class const_mat_view : public const_mat_map
  A matrix that can be efficiently dynamically resized. Uses a doubling
  memory allocation policy.
 */
-class dyn_mat : public serializable
+class dyn_mat final : public serializable
 {
     public:
         dyn_mat();

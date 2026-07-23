@@ -22,7 +22,6 @@
 #include <cstdio>
 #include <cstdlib>
 #include <cerrno>
-#include <limits>
 #include <type_traits>
 
 inline const char* get_directory_separator()

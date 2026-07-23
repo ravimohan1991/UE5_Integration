@@ -155,11 +155,11 @@ bool CommandLineInterface::DoLS()
 #ifdef WIN32
 
     // Windows-specific directory listing
-    WIN32_FIND_DATA FindFileData;
+    WIN32_FIND_DATAA FindFileData;
     HANDLE hFind;
 
     // Open a file find using the universal dos wildcard *.*
-    hFind = FindFirstFile("*.*", &FindFileData);
+    hFind = FindFirstFileA("*.*", &FindFileData);
     if (hFind == INVALID_HANDLE_VALUE)
     {
 
@@ -177,7 +177,7 @@ bool CommandLineInterface::DoLS()
         PrintFilename(FindFileData.cFileName, FindFileData.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY ? true : false);
 
     }
-    while (FindNextFile(hFind, &FindFileData));
+    while (FindNextFileA(hFind, &FindFileData));
 
     // Close the file find
     FindClose(hFind);

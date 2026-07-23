@@ -134,30 +134,6 @@ std::string get_soarlib_path()
     return h;
 }
 
-const char* get_safe_env(const char* var)
-{
-    static std::string soarHomeStr;
-
-#ifdef _MSC_VER
-    char* soarHomeBuf = nullptr;
-    size_t soarHomeBuffSize = 0;
-    if (_dupenv_s(&soarHomeBuf, &soarHomeBuffSize, var) == 0 && soarHomeBuf != nullptr)
-    {
-        soarHomeStr = soarHomeBuf;
-        free(soarHomeBuf);
-    }
-#else
-    char* soarHomeC = getenv(var);
-    if (soarHomeC)
-    {
-        soarHomeStr = soarHomeC;
-    }
-#endif
-    const char* soarHome = soarHomeStr.empty() ? nullptr : soarHomeStr.c_str();
-
-	return soarHome;
-}
-
 Agent::Agent(Kernel* pKernel, char const* pName)
 {
     m_Kernel = pKernel ;

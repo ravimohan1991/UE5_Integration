@@ -8,7 +8,8 @@
 #endif
 
 // disable min/max macros -- fixes an issue where some RHS functions use a struct that has fields by these names, so the initializer gets interpreted as a macro call
-#define NOMINMAX
+// UE project-wide defines NOMINMAX, so this is commented out to avoid a redefinition warning. If you are using this outside of UE, you may want to uncomment this line.
+//#define NOMINMAX
 
 #ifdef _DEBUG
 #define _CRTDBG_MAP_ALLOC
@@ -16,6 +17,7 @@
 #endif
 
 #include <Windows.h>
+#include <limits>
 #include <process.h>
 #include <winsock2.h>
 #include <ws2tcpip.h>

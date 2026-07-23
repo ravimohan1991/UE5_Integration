@@ -309,8 +309,17 @@ bool CommandLineInterface::ParseSRand(std::vector< std::string >& argv)
         return SetError("Syntax: decide set-random-seed [seed]");
     }
 
-    uint32_t seed = 0;
-    sscanf(argv[2].c_str(), "%u", &seed);
+	const char* seed_str = argv[2].c_str();
+	char* endptr = nullptr;
+	errno = 0; // Reset errno before conversion
+	unsigned long long seed_long = strtoul(seed_str, &endptr, 10);
+
+    if (errno != 0 || *endptr != '\0' || seed_long > UINT32_MAX)
+    {
+        return SetError("Invalid seed value. Must be a non-negative integer between 0 and 4294967295.");
+	}
+    
+	uint32_t seed = static_cast<uint32_t>(seed_long);
     return DoSRand(&seed);
 }
 bool CommandLineInterface::DoIndifferentSelection(const char pOp, const std::string* p1, const std::string* p2, const std::string* p3)
@@ -362,7 +371,7 @@ bool CommandLineInterface::DoIndifferentSelection(const char pOp, const std::str
     {
         if (!p1)
         {
-            bool setting = thisAgent->Decider->settings[DECIDER_AUTO_REDUCE];
+            bool setting = (thisAgent->Decider->settings[DECIDER_AUTO_REDUCE] != 0);
 
             if (m_RawOutput)
             {

@@ -30,6 +30,7 @@
 // By doing this in the code like this, each client doesn't need to add the winsock library
 // as an explicit dependency.  When it includes this header, it gets the winsock library linked in.
 #pragma comment (lib, "ws2_32.lib")
+#include <winsock2.h>
 #endif // _WIN32
 
 #include "sock_DataSender.h"
